@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter} from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 import Routes from './Routes';
-import './App.css';
+import createStore from './redux/store';
+import 'sanitize.css/sanitize.css';
+
+const history = createHistory();
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__
+&& window.__REDUX_DEVTOOLS_EXTENSION__();
+const store = createStore(history, devTools);
 
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Routes />
+        </ConnectedRouter>
+      </Provider>
     );
   }
 }
