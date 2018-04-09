@@ -7,8 +7,7 @@ import createStore from './redux/store'
 import 'sanitize.css/sanitize.css'
 
 const history = createHistory()
-const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ &&
-window.__REDUX_DEVTOOLS_EXTENSION__()
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 const store = createStore(history, devTools)
 
 class App extends Component {
