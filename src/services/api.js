@@ -1,21 +1,29 @@
 import axios from 'axios'
-const __API__ = ''
+
+export const __API__ = ''
 
 const fetchClient = () => {
   const defaultOptions = {
-    baseURL: __API__,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    baseURL: __API__
   }
 
   let instance = axios.create(defaultOptions)
 
-  instance.interceptors.request.use(function (config) {
+  instance.interceptors.request.use(config => {
     /* global localStorage */
-    const token = localStorage.getItem('token')
-    config.headers.Authorization = token ? `Bearer ${token}` : ''
+    config.headers.Authorization = localStorage.getItem('token')
     return config
+  })
+
+  instance.interceptors.response.use(function (response) {
+    return response
+  }, error => {
+    if (error.response.status === 401) {
+      // logica de redirect aqui
+      window.location('/login')
+    } else {
+      return Promise.reject(error)
+    }
   })
 
   return instance
