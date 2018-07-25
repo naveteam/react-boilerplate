@@ -18,11 +18,13 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "standard": "^11.0.1"
   },
   "standard": {
     "ignore": [
       "build/*"
-    ]
+    ],
+    "parser": "babel-eslint"
   }
 }
