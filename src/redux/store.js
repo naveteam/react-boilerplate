@@ -1,14 +1,13 @@
-import { createStore as _createStore, applyMiddleware } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { routerMiddleware } from 'react-router-redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 import reducer from './modules'
 
-export default function createStore (history, data) {
-  const reduxRouterMiddleware = routerMiddleware(history)
-  const middleware = [thunkMiddleware, reduxRouterMiddleware]
-
-  const finalCreateStore = applyMiddleware(...middleware)(_createStore)
-  const store = finalCreateStore(reducer, data)
-
-  return store
+const middleware = [thunk]
+if (process.env.NODE_ENV === 'development') {
+  middleware.push(logger)
 }
+
+const store = createStore(reducer, applyMiddleware(...middleware))
+
+export default store
