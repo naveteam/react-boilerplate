@@ -14,15 +14,20 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test:watch": "jest --watch",
+    "test": "jest",
     "eject": "react-scripts eject",
     "precommit": "lint-staged"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "enzyme-to-json": "^3.3.4",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
     "prettier-standard": "^8.0.1",
+    "react-test-renderer": "^16.5.0",
     "standard": "^11.0.1"
   },
   "lint-staged": {
@@ -35,7 +40,8 @@
   },
   "standard": {
     "ignore": [
-      "build/*"
+      "build/*",
+      "__tests__/*"
     ],
     "parser": "babel-eslint"
   }
