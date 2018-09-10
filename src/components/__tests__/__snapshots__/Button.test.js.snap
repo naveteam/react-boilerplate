@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> render and generate snapshot 1`] = `
+<button
+  disabled={true}
+  type="button"
+>
+   
+  isDisabled
+</button>
+`;
