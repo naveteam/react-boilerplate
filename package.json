@@ -48,7 +48,7 @@
   "standard": {
     "ignore": [
       "build/*",
-      "__tests__/*"
+      "src/**/__tests__/*"
     ],
     "parser": "babel-eslint"
   },
