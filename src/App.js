@@ -7,19 +7,17 @@ import 'sanitize.css/sanitize.css'
 import Rota1 from './routes/Rota1'
 import Rota2 from './routes/Rota2'
 
-class App extends Component {
-  render () {
-    return (
-      // <Provider store={store}>
-      <Router>
-        <Fragment>
-          <Route exact path='/' component={Rota1} />
-          <Route path='/rota2' component={Rota2} />
-        </Fragment>
-      </Router>
-      // </Provider>
-    )
-  }
+const App = () => {
+  return (
+    // <Provider store={store}>
+    <Router>
+      <Fragment>
+        <Route exact path='/' component={Rota1} />
+        <Route path='/rota2' component={Rota2} />
+      </Fragment>
+    </Router>
+    // </Provider>
+  )
 }
 
 export default App
