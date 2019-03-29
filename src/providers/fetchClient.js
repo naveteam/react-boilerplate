@@ -15,16 +15,11 @@ instance.interceptors.request.use(config => {
 })
 
 instance.interceptors.response.use(
-  function (response) {
+  function(response) {
     return response
   },
   error => {
-    if (
-      error &&
-      error.response &&
-      error.response.status === 401 &&
-      window.location.pathname !== '/login'
-    ) {
+    if (error && error.response && error.response.status === 401 && window.location.pathname !== '/login') {
       window.location.href = '/login'
     } else {
       return Promise.reject(error)
