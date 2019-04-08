@@ -31,7 +31,7 @@
     "jest": "NODE_ENV=test jest test --notify --config=jest.json",
     "test": "npm run eslint",
     "eject": "react-scripts eject",
-    "commit": "git cz -s",
+    "commit": "npx git-cz",
     "prettier": "yarn prettier:js && git add .",
     "prettier:js": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js"
   },
