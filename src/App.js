@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 // import createHistory from 'history/createBrowserHistory'
 // import store from './redux/store'
 import 'sanitize.css/sanitize.css'
-import Rota1 from './routes/Rota1'
-import Rota2 from './routes/Rota2'
+import Rota1 from 'routes/Rota1'
+import Rota2 from 'routes/Rota2'
 
 const App = () => {
   return (
