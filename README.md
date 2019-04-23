@@ -1,9 +1,9 @@
-#Nave boilerplate
+# Nave boilerplate
 
-##Run
+## Run
 
 `yarn start`
 
-##Commit
+## Commit
 
 `yarn commit`
