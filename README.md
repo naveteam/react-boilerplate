@@ -1,6 +1,12 @@
 # Nave boilerplate
 
-## Run
+Boilerplate based on [Create React App](https://github.com/facebook/create-react-app)
+
+## Start
+
+Clone this repository and run `yarn` to install dependencies.
+
+## Running
 
 `yarn start`
 
