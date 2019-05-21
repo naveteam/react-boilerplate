@@ -4,16 +4,16 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 // import createHistory from 'history/createBrowserHistory'
 // import store from './redux/store'
 import 'sanitize.css/sanitize.css'
-import Rota1 from 'routes/Rota1'
-import Rota2 from 'routes/Rota2'
+import Home from 'routes/Home'
+import Dashboard from 'routes/Dashboard'
 
 const App = () => {
   return (
     // <Provider store={store}>
     <Router>
       <Fragment>
-        <Route exact path='/' component={Rota1} />
-        <Route path='/rota2' component={Rota2} />
+        <Route exact path='/' component={Home} />
+        <Route path='/dashboard' component={Dashboard} />
       </Fragment>
     </Router>
     // </Provider>

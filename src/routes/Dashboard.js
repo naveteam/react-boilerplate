@@ -4,6 +4,6 @@ import Button from '../components/Button'
 
 export default () => (
   <Link to='/'>
-    <Button name='rota 1' />
+    <Button name='DASHBOARD BUTTON' />
   </Link>
 )
