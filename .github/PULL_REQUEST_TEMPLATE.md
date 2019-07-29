@@ -1,4 +1,4 @@
-<!-- 🚨 Please review the guidelines for contributing to this repository. -->
+<!-- 🚨 Please review the how to contribute for contributing to this repository. -->
 
 ## Proposed changes
 
@@ -13,7 +13,8 @@
 Put an x in the boxes that apply. You can also fill these out after creating the PR. If you're unsure about any of them, don't hesitate to ask. We're here to help! This is simply a reminder of what we are going to look for before merging your code.
 
 <!-- - [ ] I have read the CONTRIBUTING doc -->
-- [ ] [I have signed my commit](https://help.github.com/articles/signing-commits-using-gpg/)
-- [ ] run `npm test` and pass locally with my changes
-- [ ] I have added tests that prove my fix is effective or that my feature works
+
+- [ ] I have read the CONTRIBUTING guide and follow all rules
+- [ ] [Squash pull request into a single commit](http://eli.thegreenplace.net/2014/02/19/squashing-github-pull-requests-into-a-single-commit/)
+  <!-- - [ ] I have added tests that prove my fix is effective or that my feature works -->
 - [ ] I have added necessary documentation (if appropriate)
