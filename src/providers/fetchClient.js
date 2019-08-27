@@ -3,7 +3,7 @@ import axios from 'axios'
 export const __API__ = ''
 
 const defaultOptions = {
-  baseURL: __API__
+  baseURL: __API__,
 }
 
 let instance = axios.create(defaultOptions)
@@ -24,6 +24,6 @@ instance.interceptors.response.use(
     } else {
       return Promise.reject(error)
     }
-  }
+  },
 )
 export default instance
