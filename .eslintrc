@@ -1,14 +1,15 @@
-{   "parser": "babel-eslint",
-    "plugins": [
-        "react-hooks"
-    ],
-    "rules": {
-        "indent": ["error", 2, {"SwitchCase": 1}],
-        "quotes": [2, "single"],
-        "semi": [2, "never"],
-        "comma-dangle": [2, "never"],
-        "no-trailing-spaces": [2],
-        "jsx-quotes": ["error", "prefer-single"],
-        "react-hooks/rules-of-hooks": "error"
-    }
+{
+  "extends": ["prettier/react", "prettier/standard"],
+  "parser": "babel-eslint",
+  "plugins": ["react-hooks", "import", "prettier", "standard"],
+  "rules": {
+    "quotes": [2, "single"],
+    "semi": [2, "never"],
+    "comma-dangle": [2, "only-multiline"],
+    "no-trailing-spaces": [2],
+    "jsx-quotes": ["error", "prefer-single"],
+    "react-hooks/rules-of-hooks": "error",
+    "prettier/prettier": 2,
+    "space-before-function-paren": 0
+  }
 }
