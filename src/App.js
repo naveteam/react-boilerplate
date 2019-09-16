@@ -1,21 +1,26 @@
-import React, { Fragment } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import React from 'react'
 // import { Provider } from 'react-redux'
 // import createHistory from 'history/createBrowserHistory'
 // import store from './redux/store'
 import 'sanitize.css/sanitize.css'
-import Home from 'routes/Home'
-import Dashboard from 'routes/Dashboard'
+import { useUser } from 'context/user-context'
+
+const loadAuthenticatedApp = () => import('./AuthenticatedApp')
+const AuthenticatedApp = React.lazy(loadAuthenticatedApp)
+const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'))
 
 const App = () => {
+  const user = useUser()
+
+  React.useEffect(() => {
+    loadAuthenticatedApp()
+  }, [])
+
   return (
     // <Provider store={store}>
-    <Router>
-      <Fragment>
-        <Route exact path='/' component={Home} />
-        <Route path='/dashboard' component={Dashboard} />
-      </Fragment>
-    </Router>
+    <React.Suspense fallback={<p>carregando...</p>}>
+      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    </React.Suspense>
     // </Provider>
   )
 }
