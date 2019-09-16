@@ -47,7 +47,9 @@ const AuthProvider = props => {
     }
   }
 
-  const register = () => {} // register the user
+  const register = () => {
+    // put here the expected behavior of register a new user
+  }
   const logout = () => {
     clearToken()
     reload()
