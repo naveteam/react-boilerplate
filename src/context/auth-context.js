@@ -3,7 +3,7 @@ import { useAsync } from 'react-async'
 
 import { bootstrapAppData } from 'utils/bootstrap'
 import { login as authLogin } from 'services/auth'
-import { setToken } from 'helpers/auth'
+import { setToken, clearToken } from 'helpers/auth'
 
 const AuthContext = React.createContext()
 
@@ -48,7 +48,10 @@ const AuthProvider = props => {
   }
 
   const register = () => {} // register the user
-  const logout = () => {} // clear the token in localStorage and the user data
+  const logout = () => {
+    clearToken()
+    reload()
+  }
 
   return <AuthContext.Provider value={{ data, login, logout, register }} {...props} />
 }
