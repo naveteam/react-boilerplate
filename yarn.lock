@@ -10304,6 +10304,11 @@ react-app-polyfill@^1.0.2:
     regenerator-runtime "0.13.3"
     whatwg-fetch "3.0.0"
 
+react-async@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/react-async/-/react-async-8.0.0.tgz#81edd40e641206737a988076f3afcc270c6bbd27"
+  integrity sha512-LokBZLLkT80URrfDWu5Z/42GBOlYYxPGPTfo+uOjDti9RVRXa69AYlJuHZr+TyCJcn61kYQvjQo8StzA2LKULg==
+
 react-dev-utils@^9.0.3:
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-9.0.3.tgz#7607455587abb84599451460eb37cef0b684131a"

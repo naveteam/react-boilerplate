@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { getToken } from 'helpers/auth'
 
-export const __API__ = ''
+export const __API__ = 'http://ec2-52-86-237-71.compute-1.amazonaws.com:3001/'
 
 const defaultOptions = {
   baseURL: __API__,
@@ -9,9 +10,15 @@ const defaultOptions = {
 let instance = axios.create(defaultOptions)
 
 instance.interceptors.request.use(config => {
-  /* global localStorage */
-  config.headers.Authorization = localStorage.getItem('token')
-  return config
+  const token = getToken()
+
+  return {
+    ...config,
+    headers: {
+      ...config.headers,
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  }
 })
 
 instance.interceptors.response.use(
