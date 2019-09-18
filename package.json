@@ -24,12 +24,12 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "rescripts start",
+    "build": "rescripts build",
     "eslint": "eslint src/*.js src/**/*.js src/**/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js",
     "jest": "NODE_ENV=test jest test --notify --config=jest.json",
     "test": "npm run eslint",
-    "eject": "react-scripts eject",
+    "eject": "rescripts eject",
     "commit": "npx git-cz",
     "prettier": "yarn prettier:js && git add .",
     "prettier:js": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js"
@@ -37,6 +37,11 @@
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
+    "@rescripts/cli": "^0.0.12",
+    "@rescripts/rescript-env": "^0.0.10",
+    "@rescripts/rescript-use-babel-config": "^0.0.8",
+    "@rescripts/rescript-use-eslint-config": "^0.0.9",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "commitlint": "^8.1.0",
     "cz-conventional-changelog": "^3.0.2",
     "enzyme": "^3.10.0",
