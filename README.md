@@ -13,3 +13,8 @@ Clone this repository and run `yarn` to install dependencies.
 ## Commit
 
 `yarn commit`
+
+## Babel plugins
+
+- babel-transform-remove-console
+- @babel/plugin-proposal-optional-chaining
