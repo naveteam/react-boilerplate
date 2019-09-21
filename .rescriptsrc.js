@@ -1,5 +1,6 @@
+const commonPlugins = ["@babel/plugin-proposal-optional-chaining"]
 const productionPlugins = [['transform-remove-console', { exclude: ['error', 'warn'] }]]
-const plugins = process.env.NODE_ENV === 'production' ? productionPlugins : []
+const plugins = process.env.NODE_ENV === 'production' ? [...commonPlugins, productionPlugins] : [...commonPlugins]
 
 module.exports = [
   ['use-babel-config',
