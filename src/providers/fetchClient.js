@@ -26,7 +26,7 @@ instance.interceptors.response.use(
     return response
   },
   error => {
-    if (error && error.response && error.response.status === 401 && window.location.pathname !== '/login') {
+    if (error && error.response && error.response.status === 401 && !['/login'].includes(window.location.pathname)) {
       window.location.href = '/login'
     } else {
       return Promise.reject(error)
