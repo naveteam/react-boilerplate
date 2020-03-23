@@ -22,7 +22,7 @@ instance.interceptors.request.use(config => {
 })
 
 instance.interceptors.response.use(
-  function(response) {
+  function (response) {
     return response
   },
   error => {
