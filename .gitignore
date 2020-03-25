@@ -1,6 +1,22 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
 node_modules
-dist
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+/.next
+
+# misc
+.DS_Store
 .env
-coverage
-build
-*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+yarn.lock
+package-lock.json

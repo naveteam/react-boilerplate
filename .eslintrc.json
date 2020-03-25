@@ -5,7 +5,7 @@
   "rules": {
     "quotes": [2, "single"],
     "semi": [2, "never"],
-    "comma-dangle": [2, "only-multiline"],
+    "comma-dangle": [2, "never"],
     "no-trailing-spaces": [2],
     "jsx-quotes": ["error", "prefer-single"],
     "react/jsx-boolean-value": [0],

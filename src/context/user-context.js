@@ -13,7 +13,7 @@ const useUser = () => {
 
 const UserProvider = props => {
   const {
-    data: { user },
+    data: { user }
   } = useAuth()
 
   return <UserContext.Provider value={user} {...props} />

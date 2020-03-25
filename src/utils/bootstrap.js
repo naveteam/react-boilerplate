@@ -12,7 +12,7 @@ async function bootstrapAppData() {
     return { user: null }
   }
   return {
-    user: data,
+    user: data
   }
 }
 

@@ -25,7 +25,7 @@ const Login = () => {
           handleChange,
           handleBlur,
           handleSubmit,
-          handleReset,
+          handleReset
         } = props
         return (
           <Form onSubmit={handleSubmit}>

@@ -4,7 +4,7 @@ import { getToken } from 'helpers/auth'
 export const __API__ = 'http://ec2-52-86-237-71.compute-1.amazonaws.com:3001/'
 
 const defaultOptions = {
-  baseURL: __API__,
+  baseURL: __API__
 }
 
 let instance = axios.create(defaultOptions)
@@ -16,8 +16,8 @@ instance.interceptors.request.use(config => {
     ...config,
     headers: {
       ...config.headers,
-      Authorization: token ? `Bearer ${token}` : '',
-    },
+      Authorization: token ? `Bearer ${token}` : ''
+    }
   }
 })
 
@@ -31,6 +31,6 @@ instance.interceptors.response.use(
     } else {
       return Promise.reject(error)
     }
-  },
+  }
 )
 export default instance

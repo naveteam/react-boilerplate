@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate",
+  "name": "react-boilerplate",
   "description": "Boilerplate da nave",
-  "author": "João Pedro Bretanha <joaopedro@nave.rs>",
+  "author": "Nave Team <tech@nave.rs>",
   "license": "Private",
   "version": "0.1.0",
   "private": true,
@@ -9,11 +9,13 @@
     "@naveteam/dispatcher": "^1.1.0",
     "axios": "^0.19.0",
     "formik": "^2.1.4",
+    "lint-staged": "9.5",
     "react": "^16.9.0",
     "react-app-polyfill": "^1.0.6",
     "react-async": "^10.0.0",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
+    "react-is": "^16.13.1",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.3.0",
@@ -27,15 +29,15 @@
   "scripts": {
     "start": "rescripts start",
     "build": "rescripts build",
-    "eslint": "eslint src/*.js src/**/*.js src/**/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js",
-    "jest": "NODE_ENV=test jest test --notify --config=jest.json",
-    "test": "rescripts test",
+    "eslint": "eslint --ignore-path .gitignore .",
+    "pretest": "yarn eslint",
+    "test": "rescripts test --passWithNoTests",
     "eject": "rescripts eject",
     "commit": "npx git-cz",
-    "prettier": "yarn prettier:js && git update-index --again",
-    "prettier:js": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js"
+    "prettier": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
@@ -47,9 +49,11 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "commitlint": "^8.1.0",
     "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.1.0",
     "eslint-config-standard": "^14.0.1",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.14.3",
@@ -62,13 +66,21 @@
     "stylelint": "^13.2.1",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.8.0"
+    "stylelint-processor-styled-components": "^1.8.0",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all"
   ],
+  "lint-staged": {
+    "*.{js, jsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
