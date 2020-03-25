@@ -10,7 +10,7 @@ const AuthContext = React.createContext()
 const AuthProvider = props => {
   const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false)
   const { data = { user: null }, error, isRejected, isPending, isSettled, reload } = useAsync({
-    promiseFn: bootstrapAppData,
+    promiseFn: bootstrapAppData
   })
 
   React.useLayoutEffect(() => {
@@ -36,7 +36,7 @@ const AuthProvider = props => {
   const login = async data => {
     try {
       const {
-        data: { token, ...user },
+        data: { token, ...user }
       } = await authLogin(data)
       setToken(token)
       reload()
