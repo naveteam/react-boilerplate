@@ -2,10 +2,7 @@
 
 exports[`<Button /> render and generate snapshot 1`] = `
 <button
+  className=""
   disabled={true}
-  type="button"
->
-   
-  isDisabled
-</button>
+/>
 `;
