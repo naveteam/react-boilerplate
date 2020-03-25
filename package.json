@@ -10,6 +10,7 @@
     "axios": "^0.19.0",
     "formik": "^2.1.4",
     "lint-staged": "9.5",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-app-polyfill": "^1.0.6",
     "react-async": "^10.0.0",

@@ -1,22 +1,33 @@
-import React from 'react'
-import { useAuth } from './auth-context'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
-const UserContext = React.createContext()
+import { useAuth } from 'context/auth-context'
+
+const UserContext = createContext()
 
 const useUser = () => {
-  const context = React.useContext(UserContext)
+  const context = useContext(UserContext)
+
   if (context === undefined) {
     throw new Error('useUser must be used within a UserProvider')
   }
+
   return context
 }
 
 const UserProvider = props => {
-  const {
-    data: { user }
-  } = useAuth()
+  const [user, setUser] = useState(null)
 
-  return <UserContext.Provider value={user} {...props} />
+  const { data } = useAuth()
+
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+
+    setUser(data.user)
+  }, [data])
+
+  return <UserContext.Provider value={{ user, setUser }} {...props} />
 }
 
 export { UserProvider, useUser }

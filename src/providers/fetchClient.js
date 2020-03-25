@@ -1,13 +1,13 @@
 import axios from 'axios'
-import { getToken } from 'helpers/auth'
+import { getToken } from 'helpers'
 
-export const __API__ = 'http://ec2-52-86-237-71.compute-1.amazonaws.com:3001/'
+export const __API__ = process.env.REACT_APP_API_URL
 
 const defaultOptions = {
   baseURL: __API__
 }
 
-let instance = axios.create(defaultOptions)
+const instance = axios.create(defaultOptions)
 
 instance.interceptors.request.use(config => {
   const token = getToken()
@@ -22,15 +22,13 @@ instance.interceptors.request.use(config => {
 })
 
 instance.interceptors.response.use(
-  function (response) {
-    return response
-  },
+  response => response.data,
   error => {
-    if (error && error.response && error.response.status === 401 && !['/login'].includes(window.location.pathname)) {
-      window.location.href = '/login'
-    } else {
+    if ((error && error.response && error.response.status !== 401) || ['/login'].includes(window.location.pathname)) {
       return Promise.reject(error)
     }
+    window.location.href = '/login'
   }
 )
+
 export default instance

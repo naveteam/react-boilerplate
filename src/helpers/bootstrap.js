@@ -1,19 +1,20 @@
 import { getUser } from 'services/auth'
-import { getToken } from 'helpers/auth'
+import { getToken } from 'helpers'
 
-async function bootstrapAppData() {
+const bootstrapAppData = async () => {
   const token = getToken()
+
   if (!token) {
     return { user: null }
   }
-  const { data } = await getUser()
 
-  if (!data) {
+  const user = await getUser()
+
+  if (!user) {
     return { user: null }
   }
-  return {
-    user: data
-  }
+
+  return { user }
 }
 
 export { bootstrapAppData }
