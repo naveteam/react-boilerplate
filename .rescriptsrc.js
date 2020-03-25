@@ -1,13 +1,14 @@
-const commonPlugins = ["@babel/plugin-proposal-optional-chaining"]
+const commonPlugins = ['@babel/plugin-proposal-optional-chaining']
 const productionPlugins = [['transform-remove-console', { exclude: ['error', 'warn'] }]]
 const plugins = process.env.NODE_ENV === 'production' ? [...commonPlugins, ...productionPlugins] : [...commonPlugins]
 
 module.exports = [
-  ['use-babel-config',
-  {
+  [
+    'use-babel-config',
+    {
       presets: ['react-app'],
-      plugins: [...plugins],
-    },
+      plugins: [...plugins]
+    }
   ],
-  ['use-eslint-config', '.eslintrc.json'],
+  ['use-eslint-config', '.eslintrc.json']
 ]

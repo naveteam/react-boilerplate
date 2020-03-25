@@ -36,7 +36,7 @@
     "test": "rescripts test --passWithNoTests",
     "eject": "rescripts eject",
     "commit": "npx git-cz",
-    "prettier": "prettier --write *.js src/*.js src/**/*.js src/**/**/*.js src/**/**/**/*.js src/**/**/**/**/*.js"
+    "prettier": "prettier --write '**/*.js'"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
