@@ -1,28 +1,48 @@
-import React from 'react'
+import React, { createContext, useState, useLayoutEffect, useContext, useCallback } from 'react'
 import { useAsync } from 'react-async'
 
-import { bootstrapAppData } from 'utils/bootstrap'
 import { login as authLogin } from 'services/auth'
-import { setToken, clearToken } from 'helpers/auth'
+import { setToken, clearToken, bootstrapAppData } from 'helpers'
 
-const AuthContext = React.createContext()
+import Loader from 'components/Loader'
+
+const AuthContext = createContext()
 
 const AuthProvider = props => {
-  const [firstAttemptFinished, setFirstAttemptFinished] = React.useState(false)
+  const [firstAttemptFinished, setFirstAttemptFinished] = useState(false)
   const { data = { user: null }, error, isRejected, isPending, isSettled, reload } = useAsync({
     promiseFn: bootstrapAppData
   })
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (isSettled) {
       setFirstAttemptFinished(true)
     }
   }, [isSettled])
 
+  const login = useCallback(async data => {
+    try {
+      const { token, ...user } = await authLogin(data)
+      setToken(token)
+      reload()
+
+      return { user }
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }, [])
+
+  const logout = useCallback(() => {
+    clearToken()
+    reload()
+  }, [])
+
   if (!firstAttemptFinished) {
     if (isPending) {
-      return <p>carregando...</p>
+      return <Loader />
     }
+
     if (isRejected) {
       return (
         <div css={{ color: 'red' }}>
@@ -33,36 +53,16 @@ const AuthProvider = props => {
     }
   }
 
-  const login = async data => {
-    try {
-      const {
-        data: { token, ...user }
-      } = await authLogin(data)
-      setToken(token)
-      reload()
-      return { data: { user } }
-    } catch (error) {
-      console.log(error)
-      return error
-    }
-  }
-
-  const register = () => {
-    // put here the expected behavior of register a new user
-  }
-  const logout = () => {
-    clearToken()
-    reload()
-  }
-
-  return <AuthContext.Provider value={{ data, login, logout, register }} {...props} />
+  return <AuthContext.Provider value={{ data, login, logout }} {...props} />
 }
 
 const useAuth = () => {
-  const context = React.useContext(AuthContext)
+  const context = useContext(AuthContext)
+
   if (context === undefined) {
     throw new Error('useAuth must be used within a AuthProvider')
   }
+
   return context
 }
 
