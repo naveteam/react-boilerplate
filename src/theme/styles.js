@@ -1,4 +1,7 @@
 export const styles = {
-  colors: {},
-  sizes: {}
+  space: [],
+  sizes: [],
+  colors: {
+    black: '#000'
+  }
 }
