@@ -25,6 +25,15 @@ Clonar esse repositório e executar o comando `yarn` para instalar as dependênc
 
 `yarn commit`
 
+## Sentry
+
+O Sentry somente estará ativo se `REACT_APP_NODE_ENV=production`.
+
+Para configurar o Sentry corretamente, siga as instruções abaixo:
+
+1. Crie um projeto no [Sentry](https://sentry.io/welcome) e coloque o dns que ele disponibiliza na env `REACT_APP_SENTRY_URL`;
+2. No arquivo helpers/bootstrap, adicionar as informações de usuário que você julgar importante.
+
 ## Babel plugins
 
 - babel-transform-remove-console
