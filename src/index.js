@@ -14,8 +14,8 @@ import { version, name } from '../package.json'
 if (process.env.REACT_APP_NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_URL,
-    environment: process.env.REACT_APP_ENV,
-    debug: process.env.REACT_APP_ENV !== 'prodution',
+    environment: process.env.REACT_APP_NODE_ENV,
+    debug: process.env.REACT_APP_NODE_ENV !== 'prodution',
     release: `${name}@${version}`
   })
 }
