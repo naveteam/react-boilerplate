@@ -12,12 +12,14 @@ const bootstrapAppData = async () => {
 
   const user = await getUser()
 
-  Sentry.configureScope(scope =>
-    scope.setUser({
-      // Adicionar outras informações relevantes do usuários
-      email: user.email
-    })
-  )
+  if (process.env.REACT_APP_NODE_ENV === 'production') {
+    Sentry.configureScope(scope =>
+      scope.setUser({
+        // Adicionar outras informações relevantes do usuários
+        email: user.email
+      })
+    )
+  }
 
   if (!user) {
     return { user: null }

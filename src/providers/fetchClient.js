@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { getToken } from 'helpers'
 
 export const __API__ = process.env.REACT_APP_API_URL
@@ -24,6 +25,7 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(
   response => response.data,
   error => {
+    // Adicionar rotas públicas em `['/login']`
     if ((error && error.response && error.response.status !== 401) || ['/login'].includes(window.location.pathname)) {
       return Promise.reject(error)
     }
