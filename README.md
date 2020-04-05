@@ -1,4 +1,4 @@
-# Nave boilerplate
+# Nave Boilerplate
 
 Boilerplate baseado no [Create React App](https://github.com/facebook/create-react-app)
 
@@ -12,6 +12,29 @@ Além de todos os pontos citadas no [nave guide](https://nave.gitlab.io/guides/n
 4. **NUNCA** repita o mesmo código duas vezes. Não copie e cole. Crie helpers e components. Reutilize código;
 5. Se precisar criar um componente com várias variações, dê uma olha no componente de `Text` e utilize a propriedade `variant` do `styled-system`;
 6. Siga o padrão de pastas e padrão de código. Participe da construção do boilerplate, dê feedbacks e contribua com melhorias.
+
+## Estrutura de Pastas
+
+```
+├── /public
+├── /src
+|   ├── /components
+|   |    ├── /<component_name_folder>
+|   |    |    ├── <component_name_file>.js
+|   |    |    ├── index.js
+|   ├── /helpers
+|   |    ├── <helper_file>.js
+|   |    ├── index.js
+|   ├── /providers
+|   ├── /services
+|   ├── /routes
+|   |    ├── /<route_name_folder>
+|   |    |    ├── <route_name_file>.js
+|   |    |    ├── index.js
+|   ├── /theme
+|   ├── /context (optional)
+|   ├── /redux (optional)
+```
 
 ## Start
 
