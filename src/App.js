@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react'
+import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import Helmet from 'react-helmet'
@@ -15,8 +15,8 @@ import Theme from 'theme'
 import 'sanitize.css/sanitize.css'
 
 const loadAuthenticatedApp = () => import('./AuthenticatedApp')
-const AuthenticatedApp = React.lazy(loadAuthenticatedApp)
-const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'))
+const AuthenticatedApp = lazy(loadAuthenticatedApp)
+const UnauthenticatedApp = lazy(() => import('./UnauthenticatedApp'))
 
 const GlobalStyle = createGlobalStyle`
 * {
