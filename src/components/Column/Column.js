@@ -11,7 +11,7 @@ const Column = styled(Row)`
 
 Column.propTypes = {
   flex: PropTypes.number,
-  flexWrap: PropTypes.bool,
+  flexWrap: PropTypes.string,
   alignItems: PropTypes.string,
   justifyContent: PropTypes.string
 }

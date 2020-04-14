@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { space, layout, color } from 'styled-system'
+import { space, layout, color, flexbox } from 'styled-system'
 
 import { MEDIADESKTOP } from 'helpers'
 
 const Row = styled.div(
-  ({ flex, flexWrap, alignItems, justifyContent }) => `
-  display: flex;
-  ${flex ? `flex: ${flex};` : ''}
-  ${flexWrap ? 'flex-wrap: wrap;' : ''}
-  ${alignItems ? `align-items: ${alignItems};` : ''}
-  ${justifyContent ? `justify-content: ${justifyContent};` : ''}
-`,
+  {
+    display: 'flex'
+  },
+  flexbox,
   space,
   layout,
   color
@@ -19,7 +16,7 @@ const Row = styled.div(
 
 Row.propTypes = {
   flex: PropTypes.number,
-  flexWrap: PropTypes.bool,
+  flexWrap: PropTypes.string,
   alignItems: PropTypes.string,
   justifyContent: PropTypes.string
 }
