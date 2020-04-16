@@ -26,6 +26,10 @@ const LinkText = styled(Text)`
   text-decoration: ${({ textDecoration }) => textDecoration};
 `
 
+LinkComponent.defaultProps = {
+  textDecoration: 'underline'
+}
+
 LinkComponent.propTypes = {
   textDecoration: PropTypes.string,
   to: PropTypes.string,
