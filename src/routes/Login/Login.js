@@ -1,51 +1,48 @@
 import React from 'react'
-import { Formik, Form, Field } from 'formik'
+import { useForm } from 'react-hook-form'
 
-import Row from 'components/Row'
-import Text from 'components/Text'
+import Column from 'components/Column'
+import Input from 'components/Input'
+import Button from 'components/Button'
 
 import { useAuth } from 'context/auth-context'
+
+import { loginSchema } from 'helpers/yup-schemas'
 
 const Login = () => {
   const { login } = useAuth()
 
+  const { register, handleSubmit, errors, formState } = useForm({ validationSchema: loginSchema })
+
+  const onSubmit = async values => {
+    try {
+      await login(values)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <Formik
-      initialValues={{ email: '', password: '' }}
-      onSubmit={async (values, { setSubmitting }) => {
-        console.log(values)
-        const response = await login(values)
-        console.log(response)
-      }}
-    >
-      {props => {
-        const {
-          values,
-          touched,
-          errors,
-          dirty,
-          isSubmitting,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset
-        } = props
-        return (
-          <Form onSubmit={handleSubmit}>
-            <Text htmlFor='email' as='label' variant='big'>
-              Email
-            </Text>
-            <Row>
-              <Field id='email' placeholder='Enter your email' type='text' name='email' />
-              <Field id='password' placeholder='Enter your password' type='password' name='password' />
-              <button type='submit' disabled={isSubmitting}>
-                entrar
-              </button>
-            </Row>
-          </Form>
-        )
-      }}
-    </Formik>
+    <Column as='form' onSubmit={handleSubmit(onSubmit)} p={40} alignItems='center'>
+      <Input
+        name='email'
+        register={register}
+        label='E-mail'
+        placeholder='example@example.com'
+        error={errors.email?.message}
+      />
+      <Input
+        name='password'
+        register={register}
+        label='Senha'
+        placeholder='******'
+        error={errors.password?.message}
+        type='password'
+      />
+      <Button bg='purple' isLoading={formState.isSubmitting}>
+        Entrar
+      </Button>
+    </Column>
   )
 }
 
