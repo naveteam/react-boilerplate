@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { space, layout, typography, color, variant } from 'styled-system'
+import { space, layout, typography, color, variant, position } from 'styled-system'
+import propTypes from '@styled-system/prop-types'
 
 const BIG = 'big'
 const MEDIUM = 'medium'
@@ -8,7 +9,7 @@ const REGULAR = 'regular'
 const SMALL = 'small'
 const TINY = 'tiny'
 
-const Text = styled.p(
+const TextComponent = styled.p(
   variant({
     variants: {
       [BIG]: {
@@ -36,15 +37,17 @@ const Text = styled.p(
   space,
   layout,
   typography,
-  color
+  color,
+  position
 )
 
-Text.propTypes = {
+TextComponent.propTypes = {
   variant: PropTypes.oneOf([BIG, MEDIUM, REGULAR, SMALL, TINY]),
-  textAlign: PropTypes.string,
-  color: PropTypes.string,
-  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  lineHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ...propTypes.space,
+  ...propTypes.layout,
+  ...propTypes.typography,
+  ...propTypes.color,
+  ...propTypes.position
 }
 
-export default Text
+export default TextComponent
