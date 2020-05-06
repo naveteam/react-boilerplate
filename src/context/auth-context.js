@@ -14,6 +14,8 @@ const AuthProvider = props => {
     promiseFn: bootstrapAppData
   })
 
+  const teste = 'gustavo'
+
   useLayoutEffect(() => {
     if (isSettled) {
       setFirstAttemptFinished(true)
