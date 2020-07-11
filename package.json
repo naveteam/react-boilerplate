@@ -31,12 +31,9 @@
   "scripts": {
     "start": "rescripts start",
     "build": "REACT_APP_NODE_ENV=production rescripts build",
-    "eslint": "eslint --ignore-path .gitignore .",
-    "pretest": "yarn eslint",
     "test": "rescripts test --passWithNoTests",
     "eject": "rescripts eject",
-    "commit": "npx git-cz",
-    "prettier": "prettier --write '**/*.js' --ignore-path .gitignore"
+    "commit": "npx git-cz"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -82,6 +79,7 @@
   ],
   "lint-staged": {
     "*.{js, jsx}": [
+      "eslint --fix --ignore-path .gitignore .",
       "prettier --write"
     ]
   },
