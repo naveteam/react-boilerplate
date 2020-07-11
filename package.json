@@ -66,9 +66,6 @@
     "react-test-renderer": "^16.9.0",
     "start-server-and-test": "^1.10.0",
     "stylelint": "^13.2.1",
-    "stylelint-config-standard": "^20.0.0",
-    "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.8.0",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3"
   },
