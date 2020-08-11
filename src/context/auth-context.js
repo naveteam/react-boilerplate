@@ -2,7 +2,7 @@ import React, { createContext, useState, useLayoutEffect, useContext, useCallbac
 import { useAsync } from 'react-async'
 
 import { login as authLogin } from 'services/auth'
-import { setToken, clearToken, bootstrapAppData } from 'helpers'
+import { setAccessToken, setRefreshToken, clearToken, bootstrapAppData } from 'helpers'
 
 import Loader from 'components/Loader'
 
@@ -22,8 +22,9 @@ const AuthProvider = props => {
 
   const login = useCallback(async data => {
     try {
-      const { token, ...user } = await authLogin(data)
-      setToken(token)
+      const { access_token, refresh_token, ...user } = await authLogin(data)
+      setAccessToken(access_token)
+      setRefreshToken(refresh_token)
       reload()
 
       return { user }
