@@ -1,36 +1,14 @@
-import axios from 'axios'
+import { OAuth2 } from '@naveteam/pandora-frontend'
 
-import { getToken } from 'helpers'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from 'helpers'
 
-export const __API__ = process.env.REACT_APP_API_URL
-
-const defaultOptions = {
-  baseURL: __API__
+const options = {
+  api_url: process.env.REACT_APP_API_URL,
+  refreshTokenUrl: '/v1/users/refresh-token',
+  access_token_name: ACCESS_TOKEN,
+  refresh_token_name: REFRESH_TOKEN
 }
 
-const instance = axios.create(defaultOptions)
-
-instance.interceptors.request.use(config => {
-  const token = getToken()
-
-  return {
-    ...config,
-    headers: {
-      ...config.headers,
-      Authorization: token ? `Bearer ${token}` : ''
-    }
-  }
-})
-
-instance.interceptors.response.use(
-  response => response.data,
-  error => {
-    // Adicionar rotas públicas em `['/login']`
-    if ((error && error.response && error.response.status !== 401) || ['/login'].includes(window.location.pathname)) {
-      return Promise.reject(error)
-    }
-    window.location.href = '/login'
-  }
-)
+const instance = OAuth2.createInstance(options)
 
 export default instance
