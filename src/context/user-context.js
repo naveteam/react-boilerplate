@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect } from 'react'
 import { useQuery, useMutation, useQueryCache } from 'react-query'
 
 import { getUser, login as loginService } from 'services/auth'
-import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
+import { setAccessToken, setRefreshToken, clearToken, getToken, setToken } from 'helpers'
 
 const UserContext = createContext()
 
@@ -25,6 +25,8 @@ const UserProvider = props => {
     onSuccess: ({ access_token, refresh_token }) => {
       setAccessToken(access_token)
       setRefreshToken(refresh_token)
+      // trocar access_token e refresh_token por token caso a autenticação seja feita com OAuth0
+      // setToken(token)
       queryCache.invalidateQueries('user', { refetchInactive: true })
     }
   })
