@@ -10,6 +10,7 @@
     "@naveteam/pandora-frontend": "^1.0.1",
     "@sentry/browser": "5.14",
     "@styled-system/prop-types": "^5.1.5",
+    "@welldone-software/why-did-you-render": "^6.0.0-rc.1",
     "axios": "^0.19.0",
     "react": "^16.9.0",
     "react-app-polyfill": "^1.0.6",
