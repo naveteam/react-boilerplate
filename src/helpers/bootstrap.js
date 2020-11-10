@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser'
 
-import { getUser } from 'services/auth'
+import { authServices } from 'services/auth'
 import { getToken } from 'helpers'
 
 const bootstrapAppData = async () => {
@@ -10,7 +10,7 @@ const bootstrapAppData = async () => {
     return { user: null }
   }
 
-  const user = await getUser()
+  const user = await authServices.getUser()
 
   if (process.env.REACT_APP_NODE_ENV === 'production') {
     Sentry.configureScope(scope =>
