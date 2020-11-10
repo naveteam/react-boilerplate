@@ -6,6 +6,7 @@ import 'react-app-polyfill/stable'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as Sentry from '@sentry/browser'
+import { ReactQueryCacheProvider, QueryCache } from 'react-query'
 
 import App from './App'
 
@@ -22,9 +23,19 @@ if (process.env.REACT_APP_NODE_ENV === 'production') {
   })
 }
 
+const queryCache = new QueryCache({
+  defaultConfig: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+})
+
 ReactDOM.render(
-  <AppProviders>
-    <App />
-  </AppProviders>,
+  <ReactQueryCacheProvider queryCache={queryCache}>
+    <AppProviders>
+      <App />
+    </AppProviders>
+  </ReactQueryCacheProvider>,
   document.getElementById('root')
 )

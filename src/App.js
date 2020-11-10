@@ -1,10 +1,8 @@
 import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { ReactQueryDevtools } from 'react-query-devtools'
 import { createGlobalStyle } from 'styled-components'
 import Helmet from 'react-helmet'
-// import { Provider } from 'react-redux'
-// import createHistory from 'history/createBrowserHistory'
-// import store from './redux/store'
 
 import Loader from 'components/Loader'
 
@@ -36,22 +34,22 @@ button, a {
 `
 
 const App = () => {
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
 
   useEffect(() => {
     loadAuthenticatedApp()
   }, [])
 
   return (
-    // <Provider store={store}>
     <Theme>
       <Helmet titleTemplate='Nave.rs | %s' />
       <GlobalStyle />
       <Suspense fallback={<Loader />}>
+        {isLoading && <Loader />}
         <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
       </Suspense>
+      <ReactQueryDevtools initialIsOpen={false} />
     </Theme>
-    // </Provider>
   )
 }
 

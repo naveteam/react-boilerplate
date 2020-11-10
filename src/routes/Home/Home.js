@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 
 import Button from 'components/Button'
 
-import { useAuth } from 'context/auth-context'
+import { useUser } from 'context/user-context'
 
 const Home = () => {
-  const { logout } = useAuth()
+  const { logout } = useUser()
 
   return (
     <Fragment>

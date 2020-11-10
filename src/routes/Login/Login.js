@@ -5,12 +5,12 @@ import Column from 'components/Column'
 import Input from 'components/Input'
 import Button from 'components/Button'
 
-import { useAuth } from 'context/auth-context'
+import { useUser } from 'context/user-context'
 
 import { loginSchema } from 'helpers/yup-schemas'
 
 const Login = () => {
-  const { login } = useAuth()
+  const { login } = useUser()
 
   const { register, handleSubmit, errors, formState } = useForm({ validationSchema: loginSchema })
 
