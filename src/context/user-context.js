@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
+import { useQuery, useMutation, useQueryCache } from 'react-query'
 
-import { useAuth } from 'context/auth-context'
+import { getUser, login as loginService } from 'services/auth'
+import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
 
 const UserContext = createContext()
 
@@ -15,19 +17,35 @@ const useUser = () => {
 }
 
 const UserProvider = props => {
-  const [user, setUser] = useState(null)
+  const queryCache = useQueryCache()
 
-  const { data } = useAuth()
+  const { data: user, isLoading } = useQuery('user', getUser, { enabled: getToken() })
+
+  const [login] = useMutation(loginService, {
+    onSuccess: ({ access_token, refresh_token }) => {
+      setAccessToken(access_token)
+      setRefreshToken(refresh_token)
+      queryCache.invalidateQueries('user', { refetchInactive: true })
+    }
+  })
+
+  const logout = () => {
+    clearToken()
+    queryCache.setQueryData('user', null)
+  }
 
   useEffect(() => {
-    if (!data) {
-      return
+    if (user && process.env.REACT_APP_NODE_ENV === 'production') {
+      Sentry.configureScope(scope =>
+        scope.setUser({
+          // Adicionar outras informações relevantes do usuários
+          email: user.email
+        })
+      )
     }
+  }, [user])
 
-    setUser(data.user)
-  }, [data])
-
-  return <UserContext.Provider value={{ user, setUser }} {...props} />
+  return <UserContext.Provider value={{ user, isLoading, login, logout }} {...props} />
 }
 
 export { UserProvider, useUser }
