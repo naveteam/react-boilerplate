@@ -18,7 +18,7 @@ if (process.env.REACT_APP_NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_URL,
     environment: process.env.REACT_APP_NODE_ENV,
-    debug: process.env.REACT_APP_NODE_ENV !== 'prodution',
+    debug: process.env.REACT_APP_NODE_ENV !== 'production',
     release: `${name}@${version}`
   })
 }
