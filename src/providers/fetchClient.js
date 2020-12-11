@@ -1,6 +1,7 @@
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { OAuth2 } from '@naveteam/pandora-frontend'
 
-import { ACCESS_TOKEN, REFRESH_TOKEN } from 'helpers'
+import { ACCESS_TOKEN, REFRESH_TOKEN, getToken } from 'helpers'
 
 const options = {
   api_url: process.env.REACT_APP_API_URL,
@@ -10,5 +11,13 @@ const options = {
 }
 
 const instance = OAuth2.createInstance(options)
+
+export const graphqlClient = new ApolloClient({
+  uri: `${process.env.REACT_APP_API_URL}/graphql`,
+  cache: new InMemoryCache(),
+  headers: {
+    Authorization: getToken()
+  }
+})
 
 export default instance

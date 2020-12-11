@@ -7,6 +7,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import * as Sentry from '@sentry/browser'
 import { ReactQueryCacheProvider, QueryCache } from 'react-query'
+import { ApolloProvider } from '@apollo/client'
+
+import { graphqlClient } from 'providers/fetchClient'
 
 import App from './App'
 
@@ -33,9 +36,11 @@ const queryCache = new QueryCache({
 
 ReactDOM.render(
   <ReactQueryCacheProvider queryCache={queryCache}>
-    <AppProviders>
-      <App />
-    </AppProviders>
+    <ApolloProvider client={graphqlClient}>
+      <AppProviders>
+        <App />
+      </AppProviders>
+    </ApolloProvider>
   </ReactQueryCacheProvider>,
   document.getElementById('root')
 )
