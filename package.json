@@ -75,7 +75,6 @@
   ],
   "lint-staged": {
     "*.{js, jsx}": [
-      "eslint --fix --ignore-path .gitignore .",
       "prettier --write"
     ]
   },
