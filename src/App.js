@@ -2,11 +2,13 @@ import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { createGlobalStyle } from 'styled-components'
+import { ApolloProvider } from '@apollo/client'
 import Helmet from 'react-helmet'
 
 import Loader from 'components/Loader'
 
 import { useUser } from 'context/user-context'
+import { apolloClient } from 'providers'
 
 import Theme from 'theme'
 
@@ -41,15 +43,17 @@ const App = () => {
   }, [])
 
   return (
-    <Theme>
-      <Helmet titleTemplate='Nave.rs | %s' />
-      <GlobalStyle />
-      <Suspense fallback={<Loader />}>
-        {isLoading && <Loader />}
-        <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
-      </Suspense>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </Theme>
+    <ApolloProvider client={apolloClient}>
+      <Theme>
+        <Helmet titleTemplate='Nave.rs | %s' />
+        <GlobalStyle />
+        <Suspense fallback={<Loader />}>
+          {isLoading && <Loader />}
+          <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
+        </Suspense>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </Theme>
+    </ApolloProvider>
   )
 }
 
