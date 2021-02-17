@@ -10,6 +10,7 @@
     "jsx-quotes": ["error", "prefer-single"],
     "react/jsx-boolean-value": [0],
     "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": [
       "error",
       {

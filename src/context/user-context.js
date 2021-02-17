@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect } from 'react'
-import { useQuery, useMutation, useQueryCache } from 'react-query'
+import React, { createContext, useCallback, useContext, useEffect } from 'react'
+import { useQuery, useQueryClient } from 'react-query'
 
 import { getUser, login as loginService } from 'services/auth'
 import { setAccessToken, setRefreshToken, clearToken, getToken, setToken } from 'helpers'
@@ -17,6 +17,7 @@ const useUser = () => {
 }
 
 const UserProvider = props => {
+<<<<<<< HEAD
   const queryCache = useQueryCache()
 
   const { data: user, isLoading } = useQuery('user', getUser, { enabled: getToken() })
@@ -32,9 +33,32 @@ const UserProvider = props => {
   })
 
   const logout = () => {
+=======
+  const queryClient = useQueryClient()
+
+  const { data: user, isLoading } = useQuery('user', getUser, { enabled: Boolean(getToken()) })
+
+  const login = useCallback(
+    async data => {
+      try {
+        const { access_token, refresh_token } = await loginService(data)
+
+        setAccessToken(access_token)
+        setRefreshToken(refresh_token)
+        queryClient.invalidateQueries('user', { refetchInactive: true })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    [queryClient]
+  )
+
+  const logout = useCallback(() => {
+>>>>>>> feat: upgrade packages and create table
     clearToken()
-    queryCache.setQueryData('user', null)
-  }
+
+    queryClient.setQueryData('user', null)
+  }, [queryClient])
 
   useEffect(() => {
     if (user && process.env.REACT_APP_NODE_ENV === 'production') {

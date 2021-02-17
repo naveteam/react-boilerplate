@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { ReactQueryDevtools } from 'react-query-devtools'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 import { createGlobalStyle } from 'styled-components'
 import { ApolloProvider } from '@apollo/client'
 import Helmet from 'react-helmet'
@@ -43,6 +44,7 @@ const App = () => {
   }, [])
 
   return (
+<<<<<<< HEAD
     <ApolloProvider client={apolloClient}>
       <Theme>
         <Helmet titleTemplate='Nave.rs | %s' />
@@ -54,6 +56,17 @@ const App = () => {
         <ReactQueryDevtools initialIsOpen={false} />
       </Theme>
     </ApolloProvider>
+=======
+    <Theme>
+      <Helmet titleTemplate='Nave.rs | %s' />
+      <GlobalStyle />
+      <Suspense fallback={<Loader />}>
+        {isLoading && <Loader />}
+        <Router>{true ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
+      </Suspense>
+      <ReactQueryDevtools />
+    </Theme>
+>>>>>>> feat: upgrade packages and create table
   )
 }
 
