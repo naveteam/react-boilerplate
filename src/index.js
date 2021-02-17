@@ -5,8 +5,8 @@ import 'react-app-polyfill/stable'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { QueryClientProvider, QueryClient } from 'react-query'
 import * as Sentry from '@sentry/browser'
-import { ReactQueryCacheProvider, QueryCache } from 'react-query'
 
 import App from './App'
 
@@ -23,8 +23,8 @@ if (process.env.REACT_APP_NODE_ENV === 'production') {
   })
 }
 
-const queryCache = new QueryCache({
-  defaultConfig: {
+const client = new QueryClient({
+  defaultOptions: {
     queries: {
       refetchOnWindowFocus: false
     }
@@ -32,10 +32,10 @@ const queryCache = new QueryCache({
 })
 
 ReactDOM.render(
-  <ReactQueryCacheProvider queryCache={queryCache}>
+  <QueryClientProvider client={client}>
     <AppProviders>
       <App />
     </AppProviders>
-  </ReactQueryCacheProvider>,
+  </QueryClientProvider>,
   document.getElementById('root')
 )
