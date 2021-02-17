@@ -7,12 +7,12 @@ import Button from 'components/Button'
 
 import { useUser } from 'context/user-context'
 
-import { loginSchema } from 'helpers/yup-schemas'
+import { loginResolver } from 'helpers/yup-schemas'
 
 const Login = () => {
   const { login } = useUser()
 
-  const { register, handleSubmit, errors, formState } = useForm({ validationSchema: loginSchema })
+  const { register, handleSubmit, errors, formState } = useForm({ resolver: loginResolver })
 
   const onSubmit = async values => {
     try {
@@ -26,14 +26,14 @@ const Login = () => {
     <Column as='form' onSubmit={handleSubmit(onSubmit)} p={40} alignItems='center'>
       <Input
         name='email'
-        register={register}
+        ref={register}
         label='E-mail'
         placeholder='example@example.com'
         error={errors.email?.message}
       />
       <Input
         name='password'
-        register={register}
+        ref={register}
         label='Senha'
         placeholder='******'
         error={errors.password?.message}
