@@ -13,7 +13,7 @@ const usePagination = (queryKey, promiseFn, options = {}) => {
 
   const { page, perPage, sort, order, ...filters } = params
 
-  const { data, isFetching } = useQuery([queryKey, params], (_, params) => promiseFn(params), config)
+  const query = useQuery([queryKey, params], () => promiseFn(params), config)
 
   const setFilters = useCallback(
     newFilters =>
@@ -77,8 +77,7 @@ const usePagination = (queryKey, promiseFn, options = {}) => {
   )
 
   return {
-    data,
-    isFetching,
+    ...query,
     setFilters,
     setPage,
     setPerPage,
