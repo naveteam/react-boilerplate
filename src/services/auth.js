@@ -1,4 +1,5 @@
 import client from 'providers/fetchClient'
+import { formatIsoString } from 'helpers'
 
 export const getUser = () => client.get('/v1/me')
 
@@ -10,6 +11,7 @@ export const getUsers = async ({ page, perPage, ...params }) => {
   return results.map(user => ({
     created_at: user.registered.date,
     email: user.email,
+    formattedCreatedAt: formatIsoString(user.registered.date),
     id: user.login.uuid,
     name: `${user.name.first} ${user.name.last}`
   }))
