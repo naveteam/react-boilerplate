@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 
 import Home from 'routes/Home'
 import Dashboard from 'routes/Dashboard'
-import UsersList from 'routes/UsersList/UsersList'
+import UsersList from 'routes/UsersList'
 import AddOrEditUser from 'routes/AddOrEditUser'
 
 const AuthenticatedApp = () => (

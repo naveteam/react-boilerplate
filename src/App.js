@@ -47,7 +47,7 @@ const App = () => {
       <GlobalStyle />
       <Suspense fallback={<Loader />}>
         {isLoading && <Loader />}
-        <Router>{true ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
+        <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
       </Suspense>
       <ReactQueryDevtools />
     </Theme>

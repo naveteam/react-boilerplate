@@ -9,8 +9,6 @@ import { usePagination } from 'hooks'
 import { getUsers } from 'services/auth'
 import Loader from 'components/Loader'
 
-const { format } = Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' })
-
 const UsersList = () => {
   const { data, handleSort, isLoading, order, page, setPage, sort } = usePagination('users', getUsers)
 
@@ -39,7 +37,7 @@ const UsersList = () => {
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{format(new Date(user.created_at))}</TableCell>
+                  <TableCell>{user.formattedCreatedAt}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
