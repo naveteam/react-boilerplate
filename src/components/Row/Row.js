@@ -6,7 +6,8 @@ import { MEDIADESKTOP } from 'helpers'
 
 const RowComponent = styled.div(
   {
-    display: 'flex'
+    display: 'flex',
+    cursor: ({ cursor = 'default' }) => cursor
   },
   flexbox,
   space,

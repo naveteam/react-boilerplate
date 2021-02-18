@@ -3,21 +3,15 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 
 import Home from 'routes/Home'
 import Dashboard from 'routes/Dashboard'
-<<<<<<< HEAD
-import AddOrEditUser from 'routes/AddOrEditUser'
-=======
-import UsersList from 'routes/UsersList/UsersList'
->>>>>>> feat: upgrade packages and create table
+import UsersList from 'routes/UsersList'
+import UserForm from 'routes/UserForm'
 
 const AuthenticatedApp = () => (
   <Switch>
     <Route path='/home' component={Home} />
     <Route path='/dashboard' component={Dashboard} />
-<<<<<<< HEAD
-    <Route path={['/usuarios/criar', '/usuarios/:id']} component={AddOrEditUser} />
-=======
-    <Route path='/usuarios' component={UsersList} />
->>>>>>> feat: upgrade packages and create table
+    <Route exact path='/usuarios' component={UsersList} />
+    <Route exact path={['/usuarios/criar', '/usuarios/:id']} component={UserForm} />
     <Redirect to='/home' />
   </Switch>
 )
