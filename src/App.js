@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { ReactQueryDevtools } from 'react-query-devtools'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 import { createGlobalStyle } from 'styled-components'
 import Helmet from 'react-helmet'
 
@@ -46,9 +47,9 @@ const App = () => {
       <GlobalStyle />
       <Suspense fallback={<Loader />}>
         {isLoading && <Loader />}
-        <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
+        <Router>{true ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
       </Suspense>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools />
     </Theme>
   )
 }
