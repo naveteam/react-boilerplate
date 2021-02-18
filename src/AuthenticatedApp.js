@@ -4,14 +4,14 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import Home from 'routes/Home'
 import Dashboard from 'routes/Dashboard'
 import UsersList from 'routes/UsersList/UsersList'
-import AddOrEditUser from 'routes/AddOrEditUser'
+import UserForm from 'routes/UserForm'
 
 const AuthenticatedApp = () => (
   <Switch>
     <Route path='/home' component={Home} />
     <Route path='/dashboard' component={Dashboard} />
-    <Route path='/usuarios' component={UsersList} />
-    <Route path={['/usuarios/criar', '/usuarios/:id']} component={AddOrEditUser} />
+    <Route exact path='/usuarios' component={UsersList} />
+    <Route exact path={['/usuarios/criar', '/usuarios/:id']} component={UserForm} />
     <Redirect to='/home' />
   </Switch>
 )

@@ -1,21 +1,19 @@
-import React, { useState, useRef, forwardRef } from 'react'
+import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
 import PropTypes from 'prop-types'
 
 import Row from 'components/Row'
 import Column from 'components/Column'
-import Input from 'components/Input'
 import Text from 'components/Text'
 
-import { mergeRefs } from 'helpers'
 import { useOnClickOutside } from 'hooks'
 
-const Select = forwardRef(({ label, name, options, onChange, error, value, ...props }, ref) => {
+const Select = ({ label, name, options, onChange, error, value, placeholder, ...props }) => {
   const [isSelectOptionsOpen, setIsSelectOptionsOpen] = useState(false)
   const inputRef = useRef(null)
   const optionsRef = useRef(null)
 
-  const handleSetOptions = item => {
+  const handleChangeOption = item => {
     onChange(item)
     setIsSelectOptionsOpen(false)
   }
@@ -24,18 +22,28 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, ...pr
 
   return (
     <Column width={1} minHeight={77} position='relative'>
-      <Input
-        width='large'
-        label={label}
-        name={name}
-        ref={mergeRefs(inputRef, ref)}
-        onClick={() => setIsSelectOptionsOpen(!isSelectOptionsOpen)}
-        cursor='pointer'
-        isSelect
-        value={value?.label || ''}
-        error={error}
-        {...props}
-      />
+      <Column {...props}>
+        {label && <Text mb={5}>{label}</Text>}
+        <Column height={60} position='relative'>
+          <Row
+            alignItems='center'
+            onClick={() => setIsSelectOptionsOpen(!isSelectOptionsOpen)}
+            height={40}
+            border='1px solid black'
+            borderRadius={4}
+            padding='4px 8px'
+            ref={inputRef}
+            cursor='pointer'
+          >
+            <Text opacity={!value ? 0.6 : 1} fontSize='13px' fontWeight={400} fontFamily='Arial'>
+              {!value ? placeholder : value.label}
+            </Text>
+          </Row>
+          <Text position='absolute' bottom={0} color='red' variant='small'>
+            {error}
+          </Text>
+        </Column>
+      </Column>
       <OptionsWrapper
         left={0}
         width={1}
@@ -43,7 +51,6 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, ...pr
         zIndex={3}
         ref={optionsRef}
         position='absolute'
-        boxSizing='border-box'
         backgroundColor='white'
         border='1px solid'
         borderTop='none'
@@ -61,8 +68,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, ...pr
                 width={1}
                 cursor='pointer'
                 alignItems='center'
-                onClick={() => handleSetOptions(item)}
-                boxSizing='border-box'
+                onClick={() => handleChangeOption(item)}
               >
                 <Text fontSize={14} m={0}>
                   {item.label}
@@ -78,7 +84,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, ...pr
       </OptionsWrapper>
     </Column>
   )
-})
+}
 
 const OptionContainer = styled(Row)`
   cursor: pointer;
@@ -108,8 +114,10 @@ Select.propTypes = {
       value: PropTypes.any
     })
   ).isRequired,
-  setOption: PropTypes.func,
-  error: PropTypes.string
+  onChange: PropTypes.func,
+  error: PropTypes.string,
+  value: PropTypes.any,
+  placeholder: PropTypes.string
 }
 
 export default Select
