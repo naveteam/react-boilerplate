@@ -6,6 +6,8 @@
     "quotes": [2, "single"],
     "semi": [2, "never"],
     "comma-dangle": [2, "never"],
+    "no-console": "warn",
+    "no-debugger": "warn",
     "no-trailing-spaces": [2],
     "jsx-quotes": ["error", "prefer-single"],
     "react/jsx-boolean-value": [0],
