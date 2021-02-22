@@ -20,7 +20,12 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation)
 })
 
-const errorMiddleware = onError(({ _, networkError }) => {
+const errorMiddleware = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(error => {
+      return Promise.reject(error)
+    })
+
   if (
     networkError.statusCode === 401 &&
     !['/login', '/redefine-password', '/sign-up'].includes(window.location.pathname)
