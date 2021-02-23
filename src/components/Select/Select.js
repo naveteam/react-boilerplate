@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, forwardRef } from 'react'
 import styled, { css } from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -7,8 +7,9 @@ import Column from 'components/Column'
 import Text from 'components/Text'
 
 import { useOnClickOutside } from 'hooks'
+import { mergeRefs } from 'helpers'
 
-const Select = ({ label, name, options, onChange, error, value, placeholder, ...props }) => {
+const Select = forwardRef(({ label, name, options, onChange, error, value, placeholder, ...props }, ref) => {
   const [isSelectOptionsOpen, setIsSelectOptionsOpen] = useState(false)
   const inputRef = useRef(null)
   const optionsRef = useRef(null)
@@ -32,7 +33,7 @@ const Select = ({ label, name, options, onChange, error, value, placeholder, ...
             border='1px solid black'
             borderRadius={4}
             padding='4px 8px'
-            ref={inputRef}
+            ref={mergeRefs(inputRef, ref)}
             cursor='pointer'
           >
             <Text opacity={!value ? 0.6 : 1} fontSize='13px' fontWeight={400} fontFamily='Arial'>
@@ -84,7 +85,7 @@ const Select = ({ label, name, options, onChange, error, value, placeholder, ...
       </OptionsWrapper>
     </Column>
   )
-}
+})
 
 const OptionContainer = styled(Row)`
   cursor: pointer;
