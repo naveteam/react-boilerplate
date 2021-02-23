@@ -3,7 +3,7 @@ import { onError } from '@apollo/client/link/error'
 
 import { getToken } from 'helpers'
 
-const httpLink = new HttpLink({ uri: process.env.REACT_APP_API_URL }) // link for graphQl requests
+const httpLink = new HttpLink({ uri: process.env.REACT_APP_API_URL })
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const token = getToken()
