@@ -9,3 +9,11 @@ export const limitString = (string, limit) => {
 }
 
 export const formatIsoString = isoString => format(new Date(isoString))
+
+export const formatDate = date => {
+  const day = date.split('/')[0]
+  const month = date.split('/')[1]
+  const year = date.split('/')[2]
+
+  return `${year}-${month}-${day}`
+}

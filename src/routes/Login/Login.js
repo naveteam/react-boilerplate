@@ -41,12 +41,7 @@ const Login = () => {
         error={errors.password?.message}
         type='password'
       />
-      <Button
-        bg='purple'
-        type='button'
-        onClick={() => handleOpenModal({ type: 'success' })}
-        isLoading={formState.isSubmitting}
-      >
+      <Button bg='purple' isLoading={formState.isSubmitting}>
         Entrar
       </Button>
     </Column>
