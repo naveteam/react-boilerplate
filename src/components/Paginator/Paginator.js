@@ -89,7 +89,7 @@ const Ellipsis = styled.button.attrs({
 
 const HandlerButton = styled(Button)`
   background-color: transparent;
-  color: #6721ca;
+  color: ${({ theme }) => theme.colors.primary.main};
   width: auto;
 
   transition: color 200ms;
@@ -100,27 +100,26 @@ const HandlerButton = styled(Button)`
 `
 
 const PageButton = styled(Button)`
-  background-color: transparent;
-  color: #757575;
-  height: 24px;
-  width: auto;
-  min-width: 24px;
+  ${({ isActive, theme }) =>
+    css`
+      background-color: transparent;
+      color: #757575;
+      height: 24px;
+      width: auto;
+      min-width: 24px;
 
-  transition: background-color 200ms, color 200ms;
+      transition: background-color 200ms, color 200ms;
 
-  ${props => {
-    if (props.isActive) {
-      return css`
-        background-color: #6721ca;
+      ${isActive &&
+      css`
+        background-color: ${theme.colors.primary.main};
         color: #fff;
-      `
-    }
-  }}
-
-  :hover {
-    background-color: #6721ca;
-    color: #fff;
-  }
+      `}
+      :hover {
+        background-color: ${theme.colors.primary.main};
+        color: #fff;
+      }
+    `}
 `
 
 Paginator.propTypes = {

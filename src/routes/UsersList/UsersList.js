@@ -13,7 +13,7 @@ const UsersList = () => {
   const { data, handleSort, isLoading, order, page, setPage, sort } = usePagination('users', getUsers)
 
   return (
-    <Column p={80} alignItems='center'>
+    <Column alignItems='center'>
       {isLoading ? (
         <Loader />
       ) : (

@@ -7,7 +7,7 @@ const Table = styled.table`
   font-family: sans-serif;
   font-size: 14px;
   overflow: hidden;
-
+  background-color: white;
   tbody {
     color: #757575;
 
