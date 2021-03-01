@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef } from 'react'
+import React, { useState, useRef, forwardRef, useMemo } from 'react'
 import styled, { css } from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -15,9 +15,11 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
   const optionsRef = useRef(null)
 
   const handleChangeOption = item => {
-    onChange(item)
+    onChange(item.value)
     setIsSelectOptionsOpen(false)
   }
+
+  const selectedOption = useMemo(() => options.find(item => item.value === value), [options, value])
 
   useOnClickOutside(() => setIsSelectOptionsOpen(false), inputRef, optionsRef)
 
@@ -36,8 +38,8 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
             ref={mergeRefs(inputRef, ref)}
             cursor='pointer'
           >
-            <Text opacity={!value ? 0.6 : 1} fontSize='13px' fontWeight={400} fontFamily='Arial'>
-              {!value ? placeholder : value.label}
+            <Text opacity={!selectedOption ? 0.6 : 1} fontSize='13px' fontWeight={400} fontFamily='Arial'>
+              {!selectedOption ? placeholder : selectedOption.label}
             </Text>
           </Row>
           <Text position='absolute' bottom={0} color='red' variant='small'>
