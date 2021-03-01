@@ -6,13 +6,11 @@ import Input from 'components/Input'
 import Button from 'components/Button'
 
 import { useUser } from 'context/user-context'
-import { useModal } from 'context/modal-context'
 
 import { loginResolver } from 'helpers/yup-schemas'
 
 const Login = () => {
   const { login } = useUser()
-  const { handleOpenModal } = useModal()
 
   const { register, handleSubmit, errors, formState } = useForm({ resolver: loginResolver })
 
@@ -41,12 +39,7 @@ const Login = () => {
         error={errors.password?.message}
         type='password'
       />
-      <Button
-        bg='purple'
-        type='button'
-        onClick={() => handleOpenModal({ type: 'success' })}
-        isLoading={formState.isSubmitting}
-      >
+      <Button bg='purple' isLoading={formState.isSubmitting}>
         Entrar
       </Button>
     </Column>

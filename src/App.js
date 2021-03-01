@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from 'react'
+import React, { Suspense, lazy } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
@@ -13,8 +13,7 @@ import Theme from 'theme'
 
 import 'sanitize.css/sanitize.css'
 
-const loadAuthenticatedApp = () => import('./AuthenticatedApp')
-const AuthenticatedApp = lazy(loadAuthenticatedApp)
+const AuthenticatedApp = lazy(() => import('./AuthenticatedApp'))
 const UnauthenticatedApp = lazy(() => import('./UnauthenticatedApp'))
 
 const GlobalStyle = createGlobalStyle`
@@ -37,16 +36,15 @@ button, a {
 const App = () => {
   const { user, isLoading } = useUser()
 
-  useEffect(() => {
-    loadAuthenticatedApp()
-  }, [])
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     <Theme>
       <Helmet titleTemplate='Nave.rs | %s' />
       <GlobalStyle />
       <Suspense fallback={<Loader />}>
-        {isLoading && <Loader />}
         <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
       </Suspense>
       <ReactQueryDevtools />
