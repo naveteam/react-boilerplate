@@ -1,3 +1,5 @@
+import { format as dateFnsFormat } from 'date-fns'
+
 const { format } = Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' })
 
 export const limitString = (string, limit) => {
@@ -10,10 +12,4 @@ export const limitString = (string, limit) => {
 
 export const formatIsoString = isoString => format(new Date(isoString))
 
-export const formatDate = date => {
-  const day = date.split('/')[0]
-  const month = date.split('/')[1]
-  const year = date.split('/')[2]
-
-  return `${year}-${month}-${day}`
-}
+export const formatDateToApi = date => dateFnsFormat(date, 'yyyy-MM-dd')

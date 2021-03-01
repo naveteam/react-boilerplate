@@ -11,27 +11,21 @@ import Row from 'components/Row'
 import Loader from 'components/Loader'
 import Select from 'components/Select'
 
-import { addOrEditUserResolver } from 'helpers/yup-schemas'
+import { userFormResolver } from 'helpers/yup-schemas'
 import { getUserById, getAllRoles, updateUser, createUser } from 'services/users'
-// import { formatDate } from 'helpers'
+import { useModal } from 'context/modal-context'
 
-const formatUsersRoles = roles => roles.map(item => ({ label: item.role, value: item.id }))
+const UserForm = () => {
+  const { handleOpenModal } = useModal()
 
-const AddOrEditUser = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [feedbackMessage, setFeedbackMessage] = useState('')
-  const [usersRoles, setUsersRoles] = useState([])
-
-  const { handleSubmit, register, errors, reset, control } = useForm({
-    resolver: addOrEditUserResolver
+  const { handleSubmit, register, errors, reset, control, getValues, isSubmitting } = useForm({
+    resolver: userFormResolver
   })
 
   const { id } = useParams()
   const history = useHistory()
 
-  const { isLoading: isLoadingRoles } = useQuery('getRoles', getAllRoles, {
-    onSuccess: ({ results }) => setUsersRoles(formatUsersRoles(results))
-  })
+  const { data: usersRoles, isLoading: isLoadingRoles } = useQuery('getRoles', getAllRoles)
 
   const { isLoading: isLoadingUser } = useQuery(['userById', id], getUserById, {
     enabled: !!id,
@@ -39,7 +33,7 @@ const AddOrEditUser = () => {
       reset({
         name: data?.name,
         email: data?.email,
-        role: { label: data?.role?.role, value: data?.role?.id }
+        role_id: data?.role?.id
         // birthdate: data?.birthdate
       })
   })
@@ -50,25 +44,13 @@ const AddOrEditUser = () => {
     isSubmitting
   ])
 
-  const onSubmit = async values => {
+  const onSubmit = async ({ birthdate, ...values }) => {
     try {
-      setIsSubmitting(true)
-      const { name, password, /* birthdate, */ email, role } = values
-
-      const data = {
-        name,
-        password,
-        email,
-        // birthdate: formatDate(birthdate),
-        role_id: Number(role.value)
-      }
-      id ? await updateUser(id, data) : await createUser(data)
-      setFeedbackMessage(id ? 'Atualizado com sucesso' : 'Criado com sucesso')
+      id ? await updateUser(id, values) : await createUser(values)
+      handleOpenModal({ type: 'success', content: id ? 'Atualizado com sucesso' : 'Criado com sucesso' })
     } catch (err) {
-      setFeedbackMessage('Ocorreu um erro')
+      handleOpenModal({ type: 'error' })
       console.log(err)
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
@@ -86,81 +68,62 @@ const AddOrEditUser = () => {
           boxShadow='2px 2px 2px 2px rgba(0, 0, 0, 0.1)'
           onSubmit={handleSubmit(onSubmit)}
         >
-          {feedbackMessage ? (
-            <Fragment>
-              <Text fontWeight='bold' mb={20} fontSize={24} textAlign='center'>
-                {feedbackMessage}
-              </Text>
-              <Button
-                width={['100%', 'regular']}
-                fontWeight='bold'
-                backgroundColor='#919191'
-                mr={[0, 8]}
-                mb={[8, 0]}
-                type='button'
-                onClick={() => history.goBack()}
-              >
-                Voltar
-              </Button>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <Text fontWeight='bold' mb={20} fontSize={24} textAlign='center'>
-                {id ? 'Editar usuário' : 'Criar usuário'}
-              </Text>
-              <Input
-                label='Nome'
-                name='name'
-                ref={register}
-                placeholder='Nome'
-                error={errors?.name?.message}
-                type='text'
+          <Text fontWeight='bold' mb={20} fontSize={24} textAlign='center'>
+            {id ? 'Editar usuário' : 'Criar usuário'}
+          </Text>
+          <Input
+            label='Nome'
+            name='name'
+            ref={register}
+            placeholder='Nome'
+            error={errors?.name?.message}
+            type='text'
+            width='100%'
+          />
+          <Input
+            label='Email'
+            name='email'
+            ref={register}
+            placeholder='exemplo@nave.rs'
+            error={errors?.email?.message}
+            type='email'
+            width='100%'
+          />
+          <Input
+            label='Senha'
+            name='password'
+            ref={register}
+            placeholder='*********'
+            error={errors?.password?.message}
+            type='password'
+            width='100%'
+          />
+          <Input
+            label='Confirme a senha'
+            name='confirmPassword'
+            ref={register}
+            placeholder='*********'
+            error={errors?.confirmPassword?.message}
+            type='password'
+            width='100%'
+          />
+          <Controller
+            name='role_id'
+            control={control}
+            defaultValue=''
+            render={props => (
+              <Select
+                label='Função'
                 width='100%'
+                error={errors?.role?.message}
+                placeholder='Selecione uma função'
+                options={usersRoles}
+                mb={10}
+                {...props}
               />
-              <Input
-                label='Email'
-                name='email'
-                ref={register}
-                placeholder='exemplo@nave.rs'
-                error={errors?.email?.message}
-                type='email'
-                width='100%'
-              />
-              <Input
-                label='Senha'
-                name='password'
-                ref={register}
-                placeholder='*********'
-                error={errors?.password?.message}
-                type='password'
-                width='100%'
-              />
-              <Input
-                label='Confirme a senha'
-                name='confirmPassword'
-                ref={register}
-                placeholder='*********'
-                error={errors?.confirmPassword?.message}
-                type='password'
-                width='100%'
-              />
-              <Controller
-                name='role'
-                control={control}
-                defaultValue=''
-                render={props => (
-                  <Select
-                    label='Função'
-                    width='100%'
-                    error={errors?.role?.message}
-                    placeholder='Selecione uma função'
-                    options={usersRoles}
-                    mb={10}
-                    {...props}
-                  />
-                )}
-              />
-              {/* <Input
+            )}
+          />
+          {/* <Input
                 label='Data de Nascimento'
                 name='birthdate'
                 ref={register}
@@ -171,35 +134,33 @@ const AddOrEditUser = () => {
                 mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
               /> */}
 
-              <Row mt={14} flexWrap='wrap'>
-                <Button
-                  width={['100%', 'regular']}
-                  fontWeight='bold'
-                  backgroundColor='#919191'
-                  mr={[0, 8]}
-                  mb={[8, 0]}
-                  type='button'
-                  onClick={() => history.goBack()}
-                >
-                  Voltar
-                </Button>
-                <Button
-                  width={['100%', 'regular']}
-                  backgroundColor='purple'
-                  fontWeight='bold'
-                  ml={[0, 8]}
-                  mt={[8, 0]}
-                  type='submit'
-                >
-                  {id ? 'Salvar' : 'Criar'}
-                </Button>
-              </Row>
-            </Fragment>
-          )}
+          <Row mt={14} flexWrap='wrap'>
+            <Button
+              width={['100%', 'regular']}
+              fontWeight='bold'
+              backgroundColor='#919191'
+              mr={[0, 8]}
+              mb={[8, 0]}
+              type='button'
+              onClick={() => history.goBack()}
+            >
+              Voltar
+            </Button>
+            <Button
+              width={['100%', 'regular']}
+              backgroundColor='purple'
+              fontWeight='bold'
+              ml={[0, 8]}
+              mt={[8, 0]}
+              type='submit'
+            >
+              {id ? 'Salvar' : 'Criar'}
+            </Button>
+          </Row>
         </Column>
       )}
     </Row>
   )
 }
 
-export default AddOrEditUser
+export default UserForm
