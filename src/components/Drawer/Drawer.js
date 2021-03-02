@@ -8,6 +8,10 @@ const ROUTES = [
   {
     path: '/usuarios',
     label: 'Usuários'
+  },
+  {
+    path: '/usuarios/criar',
+    label: 'Criar usuário'
   }
 ]
 
@@ -77,6 +81,8 @@ const SideBar = styled.div`
     overflow: hidden;
     white-space: nowrap;
     transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
     ${isOpen
       ? css`
           width: ${SIDE_BAR_WIDTH}px;

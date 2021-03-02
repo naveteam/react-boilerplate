@@ -10,3 +10,5 @@ export const getAllRoles = async () => {
 export const createUser = data => client.post('/v1/users/signup', data)
 
 export const updateUser = (id, data) => client.put(`/v1/users/${id}`, data)
+
+export const deleteUser = id => client.delete(`/v1/users/${id}`)
