@@ -1,4 +1,4 @@
-import React, { useMemo, useState, Fragment } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
@@ -12,22 +12,22 @@ import Loader from 'components/Loader'
 import Select from 'components/Select'
 
 import { userFormResolver } from 'helpers/yup-schemas'
-import { getUserById, getAllRoles, updateUser, createUser } from 'services/users'
+import { getUserById, getAllRoles, updateUser, createUser, deleteUser } from 'services/users'
 import { useModal } from 'context/modal-context'
 
 const UserForm = () => {
-  const { handleOpenModal } = useModal()
+  const { handleOpenModal, handleCloseModal } = useModal()
 
-  const { handleSubmit, register, errors, reset, control, getValues, isSubmitting } = useForm({
+  const { handleSubmit, register, errors, reset, control, isSubmitting } = useForm({
     resolver: userFormResolver
   })
 
   const { id } = useParams()
   const history = useHistory()
 
-  const { data: usersRoles, isLoading: isLoadingRoles } = useQuery('getRoles', getAllRoles)
+  const { data: usersRoles, isFetching: isLoadingRoles } = useQuery('getRoles', getAllRoles)
 
-  const { isLoading: isLoadingUser } = useQuery(['userById', id], getUserById, {
+  const { isFetching: isLoadingUser } = useQuery(['userById', id], getUserById, {
     enabled: !!id,
     onSuccess: data =>
       reset({
@@ -38,13 +38,22 @@ const UserForm = () => {
       })
   })
 
+  useEffect(() => {
+    if (!!id) return
+    reset({
+      name: '',
+      email: '',
+      role_id: ''
+    })
+  }, [id, reset])
+
   const isLoading = useMemo(() => isLoadingRoles || isLoadingUser || isSubmitting, [
     isLoadingRoles,
     isLoadingUser,
     isSubmitting
   ])
 
-  const onSubmit = async ({ birthdate, ...values }) => {
+  const onSubmit = async ({ birthdate, confirmPassword, ...values }) => {
     try {
       id ? await updateUser(id, values) : await createUser(values)
       handleOpenModal({ type: 'success', content: id ? 'Atualizado com sucesso' : 'Criado com sucesso' })
@@ -54,8 +63,20 @@ const UserForm = () => {
     }
   }
 
+  const handleDeleteUser = async () => {
+    try {
+      await deleteUser(id)
+      handleCloseModal()
+      history.goBack()
+    } catch (err) {
+      handleCloseModal()
+      handleOpenModal({ type: 'error' })
+      console.log(err)
+    }
+  }
+
   return (
-    <Row px={[20, 0]} py={[20, 40]} backgroundColor='#f1f1f1' width='100%' alignItems='center' justifyContent='center'>
+    <Row px={[20, 0]} py={[20, 40]} width='100%' alignItems='center' justifyContent='center'>
       {isLoading ? (
         <Loader />
       ) : (
@@ -67,6 +88,7 @@ const UserForm = () => {
           borderRadius={5}
           boxShadow='2px 2px 2px 2px rgba(0, 0, 0, 0.1)'
           onSubmit={handleSubmit(onSubmit)}
+          position='relative'
         >
           <Text fontWeight='bold' mb={20} fontSize={24} textAlign='center'>
             {id ? 'Editar usuário' : 'Criar usuário'}
@@ -157,6 +179,23 @@ const UserForm = () => {
               {id ? 'Salvar' : 'Criar'}
             </Button>
           </Row>
+          <Button
+            mt={62}
+            width='100%'
+            backgroundColor='red'
+            type='button'
+            fontWeight='bold'
+            onClick={() =>
+              handleOpenModal({
+                type: 'confirmation',
+                title: 'Atenção',
+                content: 'Tem certeza de que deseja excluir o usuário?',
+                onConfirm: handleDeleteUser
+              })
+            }
+          >
+            Excluir
+          </Button>
         </Column>
       )}
     </Row>

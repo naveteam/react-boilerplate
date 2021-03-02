@@ -1,7 +1,7 @@
 import React from 'react'
 import { node } from 'prop-types'
 
-const TableRow = ({ children }) => <tr>{children}</tr>
+const TableRow = ({ children, ...props }) => <tr {...props}>{children}</tr>
 
 TableRow.propTypes = {
   children: node
