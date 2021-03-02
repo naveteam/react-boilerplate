@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState, Fragment } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
@@ -11,40 +11,51 @@ import Row from 'components/Row'
 import Loader from 'components/Loader'
 import Select from 'components/Select'
 
-import { addOrEditUserResolver } from 'helpers/yup-schemas'
-import { getUserById } from 'services/users'
+import { userFormResolver } from 'helpers/yup-schemas'
+import { getUserById, getAllRoles, updateUser, createUser } from 'services/users'
+import { useModal } from 'context/modal-context'
 
-const mockSelectOptions = [
-  { label: 'função a', value: 'função a' },
-  { label: 'função b', value: 'função b' },
-  { label: 'função c', value: 'função c' },
-  { label: 'função d', value: 'função d' }
-]
+const UserForm = () => {
+  const { handleOpenModal } = useModal()
 
-const AddOrEditUser = () => {
-  const { handleSubmit, register, errors, reset, setValue, control, watch } = useForm({
-    resolver: addOrEditUserResolver
+  const { handleSubmit, register, errors, reset, control, getValues, isSubmitting } = useForm({
+    resolver: userFormResolver
   })
+
   const { id } = useParams()
   const history = useHistory()
 
-  // TODO: Get user data from API
-  const { isLoading } = useQuery(['userById', id], getUserById, {
+  const { data: usersRoles, isLoading: isLoadingRoles } = useQuery('getRoles', getAllRoles)
+
+  const { isLoading: isLoadingUser } = useQuery(['userById', id], getUserById, {
     enabled: !!id,
-    onSuccess: data => reset({ name: data.name, email: data.email, role: data.role, birthdate: data.birthdate })
+    onSuccess: data =>
+      reset({
+        name: data?.name,
+        email: data?.email,
+        role_id: data?.role?.id
+        // birthdate: data?.birthdate
+      })
   })
 
-  // TODO: Integration with API
-  const onSubmit = async values => {
+  const isLoading = useMemo(() => isLoadingRoles || isLoadingUser || isSubmitting, [
+    isLoadingRoles,
+    isLoadingUser,
+    isSubmitting
+  ])
+
+  const onSubmit = async ({ birthdate, ...values }) => {
     try {
-      console.log(values)
+      id ? await updateUser(id, values) : await createUser(values)
+      handleOpenModal({ type: 'success', content: id ? 'Atualizado com sucesso' : 'Criado com sucesso' })
     } catch (err) {
+      handleOpenModal({ type: 'error' })
       console.log(err)
     }
   }
 
   return (
-    <Row p={[20, 0]} backgroundColor='#f1f1f1' width='100%' height='100vh' alignItems='center' justifyContent='center'>
+    <Row px={[20, 0]} py={[20, 40]} backgroundColor='#f1f1f1' width='100%' alignItems='center' justifyContent='center'>
       {isLoading ? (
         <Loader />
       ) : (
@@ -78,8 +89,26 @@ const AddOrEditUser = () => {
             type='email'
             width='100%'
           />
+          <Input
+            label='Senha'
+            name='password'
+            ref={register}
+            placeholder='*********'
+            error={errors?.password?.message}
+            type='password'
+            width='100%'
+          />
+          <Input
+            label='Confirme a senha'
+            name='confirmPassword'
+            ref={register}
+            placeholder='*********'
+            error={errors?.confirmPassword?.message}
+            type='password'
+            width='100%'
+          />
           <Controller
-            name='role'
+            name='role_id'
             control={control}
             defaultValue=''
             render={props => (
@@ -88,23 +117,24 @@ const AddOrEditUser = () => {
                 width='100%'
                 error={errors?.role?.message}
                 placeholder='Selecione uma função'
-                options={mockSelectOptions}
+                options={usersRoles}
+                mb={10}
                 {...props}
               />
             )}
           />
-          <Input
-            label='Data de Nascimento'
-            name='birthdate'
-            ref={register}
-            placeholder='dd/mm/aaaa'
-            error={errors?.birthdate?.message}
-            type='text'
-            width='100%'
-            mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
-          />
+          {/* <Input
+                label='Data de Nascimento'
+                name='birthdate'
+                ref={register}
+                placeholder='dd/mm/aaaa'
+                error={errors?.birthdate?.message}
+                type='text'
+                width='100%'
+                mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+              /> */}
 
-          <Row flexWrap='wrap'>
+          <Row mt={14} flexWrap='wrap'>
             <Button
               width={['100%', 'regular']}
               fontWeight='bold'
@@ -133,4 +163,4 @@ const AddOrEditUser = () => {
   )
 }
 
-export default AddOrEditUser
+export default UserForm
