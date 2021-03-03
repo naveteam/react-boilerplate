@@ -12,7 +12,6 @@ const Home = () => {
     <Fragment>
       <Button onClick={logout}>logout</Button>
       <Link to='/dashboard'>GO TO DASHBOARD</Link>
-      <Link to='/usuarios/criar'>GO TO CREATE USERS</Link>
     </Fragment>
   )
 }

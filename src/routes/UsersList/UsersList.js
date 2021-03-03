@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import Column from 'components/Column'
 import Paginator from 'components/Paginator'
@@ -11,6 +12,7 @@ import Loader from 'components/Loader'
 
 const UsersList = () => {
   const { data, handleSort, isLoading, order, page, setPage, sort } = usePagination('users', getUsers)
+  const history = useHistory()
 
   return (
     <Column alignItems='center'>
@@ -34,7 +36,7 @@ const UsersList = () => {
             </TableHead>
             <TableBody>
               {(data ?? []).map(user => (
-                <TableRow key={user.id}>
+                <TableRow onClick={() => history.push(`/usuarios/${user.id}`)} key={user.id}>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.formattedCreatedAt}</TableCell>
