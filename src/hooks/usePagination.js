@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 
 const defaultParams = {
   page: 1,
-  perPage: 10
+  pageSize: 10
 }
 
 const usePagination = (queryKey, promiseFn, options = {}) => {
@@ -11,7 +11,7 @@ const usePagination = (queryKey, promiseFn, options = {}) => {
 
   const [params, setParams] = useState(initialParams)
 
-  const { page, perPage, sort, order, ...filters } = params
+  const { page, pageSize, sort, order, ...filters } = params
 
   const query = useQuery([queryKey, params], () => promiseFn(params), config)
 
@@ -19,7 +19,7 @@ const usePagination = (queryKey, promiseFn, options = {}) => {
     newFilters =>
       setParams(previous => ({
         page: 1,
-        perPage: previous.perPage,
+        pageSize: previous.pageSize,
         sort: previous.sort,
         order: previous.order,
         ...newFilters
@@ -54,12 +54,12 @@ const usePagination = (queryKey, promiseFn, options = {}) => {
     []
   )
 
-  const setPerPage = useCallback(
-    newPerPage =>
+  const setPageSize = useCallback(
+    newPageSize =>
       setParams(previous => ({
         ...previous,
         page: 1,
-        perPage: newPerPage
+        pageSize: newPageSize
       })),
     []
   )
@@ -80,12 +80,12 @@ const usePagination = (queryKey, promiseFn, options = {}) => {
     ...query,
     setFilters,
     setPage,
-    setPerPage,
+    setPageSize,
     nextPage,
     previousPage,
     handleSort,
     page,
-    perPage,
+    pageSize,
     sort,
     order,
     filters

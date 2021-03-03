@@ -33,8 +33,8 @@ const UserForm = () => {
       reset({
         name: data?.name,
         email: data?.email,
-        role_id: data?.role?.id
-        // birthdate: data?.birthdate
+        role_id: data?.role?.id,
+        birthdate: data?.birthdate
       })
   })
 
@@ -53,7 +53,7 @@ const UserForm = () => {
     isSubmitting
   ])
 
-  const onSubmit = async ({ birthdate, confirmPassword, ...values }) => {
+  const onSubmit = async ({ confirmPassword, ...values }) => {
     try {
       id ? await updateUser(id, values) : await createUser(values)
       handleOpenModal({ type: 'success', content: id ? 'Atualizado com sucesso' : 'Criado com sucesso' })
@@ -145,16 +145,16 @@ const UserForm = () => {
               />
             )}
           />
-          {/* <Input
-                label='Data de Nascimento'
-                name='birthdate'
-                ref={register}
-                placeholder='dd/mm/aaaa'
-                error={errors?.birthdate?.message}
-                type='text'
-                width='100%'
-                mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
-              /> */}
+          <Input
+            label='Data de Nascimento'
+            name='birthdate'
+            ref={register}
+            placeholder='dd/mm/aaaa'
+            error={errors?.birthdate?.message}
+            type='text'
+            width='100%'
+            mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+          />
 
           <Row mt={14} flexWrap='wrap'>
             <Button
@@ -179,23 +179,25 @@ const UserForm = () => {
               {id ? 'Salvar' : 'Criar'}
             </Button>
           </Row>
-          <Button
-            mt={62}
-            width='100%'
-            backgroundColor='red'
-            type='button'
-            fontWeight='bold'
-            onClick={() =>
-              handleOpenModal({
-                type: 'confirmation',
-                title: 'Atenção',
-                content: 'Tem certeza de que deseja excluir o usuário?',
-                onConfirm: handleDeleteUser
-              })
-            }
-          >
-            Excluir
-          </Button>
+          {!!id && (
+            <Button
+              mt={62}
+              width='100%'
+              backgroundColor='red'
+              type='button'
+              fontWeight='bold'
+              onClick={() =>
+                handleOpenModal({
+                  type: 'confirmation',
+                  title: 'Atenção',
+                  content: 'Tem certeza de que deseja excluir o usuário?',
+                  onConfirm: handleDeleteUser
+                })
+              }
+            >
+              Excluir
+            </Button>
+          )}
         </Column>
       )}
     </Row>
