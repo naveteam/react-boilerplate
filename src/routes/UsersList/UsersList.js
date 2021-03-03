@@ -35,7 +35,7 @@ const UsersList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(data ?? []).map(user => (
+              {(data.results ?? []).map(user => (
                 <TableRow onClick={() => history.push(`/usuarios/${user.id}`)} key={user.id}>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
@@ -44,7 +44,7 @@ const UsersList = () => {
               ))}
             </TableBody>
           </Table>
-          <Paginator onChangePage={setPage} currentPage={page} total={10} mt={24} />
+          <Paginator onChangePage={setPage} currentPage={page} pageCount={data.pageCount} mt={24} />
         </Fragment>
       )}
     </Column>

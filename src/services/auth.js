@@ -29,11 +29,15 @@ export const GET_USER = gql`
     }
   }
 `
-export const getUsers = async ({ page, perPage, ...params }) => {
-  const { results } = await client.get('/v1/users')
 
-  return results.map(user => ({
-    ...user,
-    formattedCreatedAt: formatIsoString(user.created_at)
-  }))
+export const getUsers = async params => {
+  const { results, pageCount } = await client.get('/v1/users', { params })
+
+  return {
+    pageCount,
+    results: results.map(user => ({
+      ...user,
+      formattedCreatedAt: formatIsoString(user.created_at)
+    }))
+  }
 }
