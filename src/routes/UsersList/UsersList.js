@@ -1,21 +1,31 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Column from 'components/Column'
 import Paginator from 'components/Paginator'
 import { Table, TableBody, TableCell, TableHead, TableRow } from 'components/Table'
+import Loader from 'components/Loader'
+import UsersFilters from './UsersFilters'
 
 import { usePagination } from 'hooks'
 
 import { getUsers } from 'services/auth'
-import Loader from 'components/Loader'
 
 const UsersList = () => {
-  const { data, handleSort, isLoading, order, page, setPage, sort } = usePagination('users', getUsers)
+  const [filters, setFilters] = useState({})
+  const { data, handleSort, isLoading, order, page, setPage, sort } = usePagination(
+    ['users'],
+    getUsers,
+    {
+      initialParams: { page: 1, pageSize: 10 }
+    },
+    filters
+  )
   const history = useHistory()
 
   return (
     <Column alignItems='center'>
+      <UsersFilters filters={filters} setFilters={setFilters} />
       {isLoading ? (
         <Loader />
       ) : (

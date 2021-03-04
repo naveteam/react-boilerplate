@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from 'react-query'
 
 import { getUser, login as loginService } from 'services/auth'
 import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
+import { getAllRoles } from 'services/users'
 
 const UserContext = createContext()
 
@@ -20,6 +21,8 @@ const UserProvider = props => {
   const queryClient = useQueryClient()
 
   const { data: user, isLoading } = useQuery('user', getUser, { enabled: Boolean(getToken()) })
+
+  const { data: usersRoles, isFetching: isLoadingRoles } = useQuery('getRoles', getAllRoles)
 
   const login = useCallback(
     async data => {
@@ -53,7 +56,7 @@ const UserProvider = props => {
     }
   }, [user])
 
-  return <UserContext.Provider value={{ user, isLoading, login, logout }} {...props} />
+  return <UserContext.Provider value={{ user, isLoading, login, logout, usersRoles, isLoadingRoles }} {...props} />
 }
 
 export { UserProvider, useUser }

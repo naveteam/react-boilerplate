@@ -6,14 +6,18 @@ const defaultParams = {
   pageSize: 10
 }
 
-const usePagination = (queryKey, promiseFn, options = {}) => {
+const usePagination = (queryKey, promiseFn, options = {}, optionalFilters) => {
   const { initialParams = defaultParams, ...config } = options
 
   const [params, setParams] = useState(initialParams)
 
   const { page, pageSize, sort, order, ...filters } = params
 
-  const query = useQuery([queryKey, params], () => promiseFn(params), config)
+  const query = useQuery(
+    [queryKey, { ...params, ...optionalFilters }],
+    () => promiseFn({ ...params, ...optionalFilters }),
+    config
+  )
 
   const setFilters = useCallback(
     newFilters =>
