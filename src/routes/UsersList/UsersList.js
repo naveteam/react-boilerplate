@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Column from 'components/Column'
@@ -12,14 +12,9 @@ import { usePagination } from 'hooks'
 import { getUsers } from 'services/auth'
 
 const UsersList = () => {
-  const [filters, setFilters] = useState({})
-  const { data, handleSort, isLoading, order, page, setPage, sort } = usePagination(
+  const { data, handleSort, isLoading, order, page, setPage, sort, filters, setFilters } = usePagination(
     ['users'],
-    getUsers,
-    {
-      initialParams: { page: 1, pageSize: 10 }
-    },
-    filters
+    getUsers
   )
   const history = useHistory()
 

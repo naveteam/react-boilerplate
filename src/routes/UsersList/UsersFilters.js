@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useForm, Controller } from 'react-hook-form'
 
 import Row from 'components/Row'
@@ -7,11 +7,11 @@ import Button from 'components/Button'
 import Column from 'components/Column'
 import Loader from 'components/Loader'
 import Select from 'components/Select'
+import Datepicker from 'components/Datepicker'
 
 import { useUser } from 'context/user-context'
-import { dateMask } from 'helpers'
 
-const UsersFilters = ({ filters, setFilters }) => {
+const UsersFilters = ({ filters = {}, setFilters }) => {
   const { usersRoles } = useUser()
 
   const {
@@ -20,24 +20,9 @@ const UsersFilters = ({ filters, setFilters }) => {
     formState: { isSubmitting },
     reset,
     control
-  } = useForm()
-
-  useEffect(() => {
-    if (!Object.values(filters).some(value => !!value)) return
-    reset(filters)
-  }, [])
-
-  const onSubmit = values => {
-    if (!Object.values(values).some(value => !!value)) return
-    const data = {}
-
-    Object.entries(values).forEach(([key, value]) => {
-      if (!value) return
-
-      data[key] = value
-    })
-    setFilters(data)
-  }
+  } = useForm({
+    defaultValues: filters
+  })
 
   const handleClearForm = () => {
     reset()
@@ -45,41 +30,40 @@ const UsersFilters = ({ filters, setFilters }) => {
   }
 
   return (
-    <Column width='100%' as='form' onSubmit={handleSubmit(onSubmit)} my={12}>
+    <Column width='100%' as='form' onSubmit={handleSubmit(setFilters)} my={12}>
       <Row>
-        <Column width={1 / 4} px={8}>
-          <Input label='Nome' placeholder='Nome' width='100%' name='name' ref={register} />
-        </Column>
-        <Column width={1 / 4} px={8}>
-          <Input label='Email' placeholder='Email' width='100%' name='email' ref={register} />
-        </Column>
-        <Column width={1 / 4} px={8}>
-          <Controller
-            name='role_id'
-            control={control}
-            defaultValue=''
-            render={props => (
-              <Select
-                label='Função'
-                placeholder='Selecione uma função'
-                width='100%'
-                options={usersRoles}
-                mb={10}
-                {...props}
-              />
-            )}
-          />
-        </Column>
-        <Column width={1 / 4} px={8}>
-          <Input
-            label='Criado em'
-            placeholder='dd/mm/yyyy'
-            width='100%'
-            name='created_at'
-            ref={register}
-            mask={dateMask}
-          />
-        </Column>
+        <Input width={1 / 4} px={8} label='Nome' placeholder='Nome' name='name' ref={register} />
+        <Input width={1 / 4} px={8} label='Email' placeholder='Email' name='email' ref={register} />
+        <Controller
+          name='role_id'
+          control={control}
+          defaultValue=''
+          render={props => (
+            <Select
+              width={1 / 4}
+              mx={8}
+              label='Função'
+              placeholder='Selecione uma função'
+              options={usersRoles}
+              mb={10}
+              {...props}
+            />
+          )}
+        />
+        <Controller
+          name='created_at'
+          control={control}
+          defaultValue=''
+          render={props => (
+            <Datepicker
+              label='Criado em'
+              placeholderText='dd/mm/yyyy'
+              containerProps={{ width: 1 / 4, px: 8 }}
+              width='100%'
+              {...props}
+            />
+          )}
+        />
       </Row>
       <Row alignItems='center' justifyContent='flex-end'>
         <Button
