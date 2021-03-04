@@ -64,7 +64,11 @@ const UserForm = () => {
   const onSubmit = async ({ confirmPassword, ...values }) => {
     try {
       id ? await updateUser(id, values) : await createUser(values)
-      handleOpenModal({ type: 'success', content: id ? 'Atualizado com sucesso' : 'Criado com sucesso' })
+      handleOpenModal({
+        type: 'success',
+        content: id ? 'Atualizado com sucesso' : 'Criado com sucesso',
+        onClose: () => history.goBack()
+      })
     } catch (err) {
       handleOpenModal({ type: 'error' })
       console.log(err)
