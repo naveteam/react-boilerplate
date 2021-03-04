@@ -2,7 +2,8 @@ import React, { createContext, useCallback, useContext, useEffect } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getUser, login as loginService } from 'services/auth'
-import { setAccessToken, setRefreshToken, clearToken, getToken, setToken } from 'helpers'
+import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
+import { getAllRoles } from 'services/users'
 
 const UserContext = createContext()
 
@@ -17,26 +18,11 @@ const useUser = () => {
 }
 
 const UserProvider = props => {
-<<<<<<< HEAD
-  const queryCache = useQueryCache()
-
-  const { data: user, isLoading } = useQuery('user', getUser, { enabled: getToken() })
-
-  const [login] = useMutation(loginService, {
-    onSuccess: ({ access_token, refresh_token }) => {
-      setAccessToken(access_token)
-      setRefreshToken(refresh_token)
-      // trocar access_token e refresh_token por token caso a autenticação seja feita com OAuth0
-      // setToken(token)
-      queryCache.invalidateQueries('user', { refetchInactive: true })
-    }
-  })
-
-  const logout = () => {
-=======
   const queryClient = useQueryClient()
 
   const { data: user, isLoading } = useQuery('user', getUser, { enabled: Boolean(getToken()) })
+
+  const { data: usersRoles, isFetching: isLoadingRoles } = useQuery('getRoles', getAllRoles)
 
   const login = useCallback(
     async data => {
@@ -54,7 +40,6 @@ const UserProvider = props => {
   )
 
   const logout = useCallback(() => {
->>>>>>> feat: upgrade packages and create table
     clearToken()
 
     queryClient.setQueryData('user', null)
@@ -71,7 +56,7 @@ const UserProvider = props => {
     }
   }, [user])
 
-  return <UserContext.Provider value={{ user, isLoading, login, logout }} {...props} />
+  return <UserContext.Provider value={{ user, isLoading, login, logout, usersRoles, isLoadingRoles }} {...props} />
 }
 
 export { UserProvider, useUser }
