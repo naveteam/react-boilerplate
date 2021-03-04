@@ -6,24 +6,24 @@ import styled, { css } from 'styled-components'
 import Button from 'components/Button'
 import Row from 'components/Row'
 
-const Paginator = ({ currentPage, onChangePage, total, ...props }) => {
+const Paginator = ({ currentPage, onChangePage, pageCount, ...props }) => {
   const onPreviousPage = () => {
     onChangePage(Math.max(currentPage - 1, 1))
   }
 
   const onNextPage = () => {
-    onChangePage(Math.min(currentPage + 1, total))
+    onChangePage(Math.min(currentPage + 1, pageCount))
   }
 
-  const pages = useMemo(() => Array.from(Array(total)).map((_, index) => index + 1), [total])
+  const pages = useMemo(() => Array.from(Array(pageCount)).map((_, index) => index + 1), [pageCount])
 
   const IS_FIRST_PAGE = currentPage === 1
-  const IS_LAST_PAGE = currentPage === total
+  const IS_LAST_PAGE = currentPage === pageCount
 
-  const SHOULD_SHOW_ELLIPSIS = total > 7
+  const SHOULD_SHOW_ELLIPSIS = pageCount > 7
 
   const SHOULD_SHOW_START_ELLIPSIS = currentPage >= 5
-  const SHOULD_SHOW_END_ELLIPSIS = total - 3 > currentPage
+  const SHOULD_SHOW_END_ELLIPSIS = pageCount - 3 > currentPage
 
   const middle = useMemo(() => {
     if (!SHOULD_SHOW_START_ELLIPSIS) {
@@ -31,11 +31,11 @@ const Paginator = ({ currentPage, onChangePage, total, ...props }) => {
     }
 
     if (!SHOULD_SHOW_END_ELLIPSIS) {
-      return [total - 5, -1]
+      return [pageCount - 5, -1]
     }
 
     return [currentPage - 2, currentPage + 1]
-  }, [SHOULD_SHOW_END_ELLIPSIS, SHOULD_SHOW_START_ELLIPSIS, currentPage, total])
+  }, [SHOULD_SHOW_END_ELLIPSIS, SHOULD_SHOW_START_ELLIPSIS, currentPage, pageCount])
 
   return (
     <Row alignItems='center' {...props}>
@@ -58,8 +58,8 @@ const Paginator = ({ currentPage, onChangePage, total, ...props }) => {
 
           {SHOULD_SHOW_END_ELLIPSIS && <Ellipsis />}
 
-          <PageButton onClick={() => onChangePage(total)} isActive={currentPage === total} ml={8}>
-            {total}
+          <PageButton onClick={() => onChangePage(pageCount)} isActive={currentPage === pageCount} ml={8}>
+            {pageCount}
           </PageButton>
         </Fragment>
       ) : (
@@ -125,7 +125,7 @@ const PageButton = styled(Button)`
 Paginator.propTypes = {
   currentPage: number,
   onChangePage: func,
-  total: number
+  pageCount: number
 }
 
 export default memo(Paginator)
