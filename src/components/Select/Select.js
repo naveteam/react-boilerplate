@@ -24,8 +24,8 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
   useOnClickOutside(() => setIsSelectOptionsOpen(false), inputRef, optionsRef)
 
   return (
-    <Column width={1} minHeight={77} position='relative'>
-      <Column {...props}>
+    <Column width='100%' minHeight={77} position='relative' {...props}>
+      <Column>
         {label && <Text mb={5}>{label}</Text>}
         <Column height={60} position='relative'>
           <Row
@@ -37,6 +37,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
             padding='4px 8px'
             ref={mergeRefs(inputRef, ref)}
             cursor='pointer'
+            backgroundColor='white'
           >
             <Text opacity={!selectedOption ? 0.6 : 1} fontSize='13px' fontWeight={400} fontFamily='Arial'>
               {!selectedOption ? placeholder : selectedOption.label}
@@ -49,7 +50,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
       </Column>
       <OptionsWrapper
         left={0}
-        width={1}
+        width='100%'
         mt={57}
         zIndex={3}
         ref={optionsRef}
@@ -61,14 +62,14 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
         borderBottomRightRadius={4}
         isSelectOptionsOpen={isSelectOptionsOpen}
       >
-        <Column width={1} height='100%'>
+        <Column width='100%' height='100%'>
           {!!options && options.length !== 0 ? (
             options.map(item => (
               <OptionContainer
                 key={item.value}
                 pl={10}
                 minHeight={35}
-                width={1}
+                width='100%'
                 cursor='pointer'
                 alignItems='center'
                 onClick={() => handleChangeOption(item)}
@@ -79,7 +80,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
               </OptionContainer>
             ))
           ) : (
-            <Row width={1} justifyContent='center' alignItems='center' mb={15}>
+            <Row width='100%' justifyContent='center' alignItems='center' mb={15}>
               <Text fontSize={14}>Não há opções</Text>
             </Row>
           )}

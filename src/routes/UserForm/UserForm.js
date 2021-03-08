@@ -12,20 +12,28 @@ import Loader from 'components/Loader'
 import Select from 'components/Select'
 
 import { userFormResolver } from 'helpers/yup-schemas'
-import { getUserById, getAllRoles, updateUser, createUser, deleteUser } from 'services/users'
+import { getUserById, updateUser, createUser, deleteUser } from 'services/users'
 import { useModal } from 'context/modal-context'
+import { useUser } from 'context/user-context'
+import { dateMask } from 'helpers'
 
 const UserForm = () => {
   const { handleOpenModal, handleCloseModal } = useModal()
+  const { usersRoles, isLoadingRoles } = useUser()
 
-  const { handleSubmit, register, errors, reset, control, isSubmitting } = useForm({
+  const {
+    handleSubmit,
+    register,
+    errors,
+    reset,
+    control,
+    formState: { isSubmitting }
+  } = useForm({
     resolver: userFormResolver
   })
 
   const { id } = useParams()
   const history = useHistory()
-
-  const { data: usersRoles, isFetching: isLoadingRoles } = useQuery('getRoles', getAllRoles)
 
   const { isFetching: isLoadingUser } = useQuery(['userById', id], getUserById, {
     enabled: !!id,
@@ -56,7 +64,11 @@ const UserForm = () => {
   const onSubmit = async ({ confirmPassword, ...values }) => {
     try {
       id ? await updateUser(id, values) : await createUser(values)
-      handleOpenModal({ type: 'success', content: id ? 'Atualizado com sucesso' : 'Criado com sucesso' })
+      handleOpenModal({
+        type: 'success',
+        content: id ? 'Atualizado com sucesso' : 'Criado com sucesso',
+        onClose: () => history.goBack()
+      })
     } catch (err) {
       handleOpenModal({ type: 'error' })
       console.log(err)
@@ -153,7 +165,7 @@ const UserForm = () => {
             error={errors?.birthdate?.message}
             type='text'
             width='100%'
-            mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+            mask={dateMask}
           />
 
           <Row mt={14} flexWrap='wrap'>
@@ -170,7 +182,7 @@ const UserForm = () => {
             </Button>
             <Button
               width={['100%', 'regular']}
-              backgroundColor='purple'
+              backgroundColor='primary.main'
               fontWeight='bold'
               ml={[0, 8]}
               mt={[8, 0]}
