@@ -18,7 +18,7 @@ const Paginator = ({ currentPage, onChangePage, pageCount, ...props }) => {
   const pages = useMemo(() => Array.from(Array(pageCount)).map((_, index) => index + 1), [pageCount])
 
   const IS_FIRST_PAGE = currentPage === 1
-  const IS_LAST_PAGE = currentPage === pageCount
+  const IS_LAST_PAGE = currentPage >= pageCount
 
   const SHOULD_SHOW_ELLIPSIS = pageCount > 7
 

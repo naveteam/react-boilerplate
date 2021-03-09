@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Row from 'components/Row'
 import Column from 'components/Column'
 import Text from 'components/Text'
+import Icon from 'components/Icon'
 
 import { useOnClickOutside } from 'hooks'
 import { mergeRefs } from 'helpers'
@@ -19,7 +20,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
     setIsSelectOptionsOpen(false)
   }
 
-  const selectedOption = useMemo(() => options.find(item => item.value === value), [options, value])
+  const selectedOption = useMemo(() => options?.find(item => item.value === value), [options, value])
 
   useOnClickOutside(() => setIsSelectOptionsOpen(false), inputRef, optionsRef)
 
@@ -30,6 +31,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
         <Column height={60} position='relative'>
           <Row
             alignItems='center'
+            justifyContent='space-between'
             onClick={() => setIsSelectOptionsOpen(!isSelectOptionsOpen)}
             height={40}
             border='1px solid black'
@@ -42,6 +44,11 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
             <Text opacity={!selectedOption ? 0.6 : 1} fontSize='13px' fontWeight={400} fontFamily='Arial'>
               {!selectedOption ? placeholder : selectedOption.label}
             </Text>
+            <Icon
+              name='arrow'
+              transition='all 0.2s linear'
+              transform={isSelectOptionsOpen ? 'rotateZ(-90deg)' : 'rotateZ(90deg)'}
+            />
           </Row>
           <Text position='absolute' bottom={0} color='red' variant='small'>
             {error}
@@ -51,7 +58,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
       <OptionsWrapper
         left={0}
         width='100%'
-        mt={57}
+        mt={70}
         zIndex={3}
         ref={optionsRef}
         position='absolute'
@@ -104,10 +111,13 @@ const OptionsWrapper = styled(Row)(
   ({ isSelectOptionsOpen }) => css`
     max-height: ${isSelectOptionsOpen ? '220px' : '0'};
     visibility: ${isSelectOptionsOpen ? 'visible' : 'hidden'};
-    transition: all ease-in-out 0.4s;
     overflow-y: auto;
   `
 )
+
+Select.defaultProps = {
+  options: []
+}
 
 Select.propTypes = {
   label: PropTypes.string,
