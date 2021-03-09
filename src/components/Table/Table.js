@@ -1,5 +1,23 @@
+import React from 'react'
 import styled from 'styled-components'
 import { size, space } from 'styled-system'
+
+import Loader from 'components/Loader'
+
+const TableComponent = ({ isLoading, children, ...props }) => (
+  <Table {...props}>
+    {children}
+    {isLoading && (
+      <tbody>
+        <tr>
+          <th colSpan='999' align='center'>
+            <Loader />
+          </th>
+        </tr>
+      </tbody>
+    )}
+  </Table>
+)
 
 const Table = styled.table`
   border-radius: 8px;
@@ -42,4 +60,4 @@ const Table = styled.table`
   ${space}
 `
 
-export default Table
+export default TableComponent

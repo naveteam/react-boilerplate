@@ -7,6 +7,13 @@ yup.setLocale({
   }
 })
 
+const emptyStringToNull = (value, originalValue) => {
+  if (originalValue === '') {
+    return null
+  }
+  return value
+}
+
 const yupShapeWithResolver = shape => yupResolver(yup.object().shape(shape))
 
 export const loginResolver = yupShapeWithResolver({
@@ -17,7 +24,7 @@ export const loginResolver = yupShapeWithResolver({
 export const userFormResolver = yupShapeWithResolver({
   email: yup.string().email('Insira um e-mail válido').required(),
   name: yup.string().min(2, 'Mínimo de 2 caracteres no campo').required(),
-  role_id: yup.number().required(),
+  role_id: yup.number().transform(emptyStringToNull).nullable().required(),
   birthdate: yup
     .string()
     .matches(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/, 'Insira uma data válida')
