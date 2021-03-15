@@ -11,4 +11,20 @@ const options = {
 
 const instance = OAuth2.createInstance(options)
 
+instance.interceptors.request.use(config => {
+  const requestParams = !!config?.params ? {} : null
+  !!requestParams &&
+    Object.entries(config.params).forEach(([key, value]) => {
+      if (value === undefined || value === null || value === '') {
+        return
+      }
+      requestParams[key] = value
+    })
+
+  return {
+    ...config,
+    ...(!!requestParams && { params: requestParams })
+  }
+})
+
 export default instance

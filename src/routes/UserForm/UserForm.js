@@ -43,7 +43,7 @@ const UserForm = () => {
     reset({
       name: user?.name || '',
       email: user?.email || '',
-      role_id: user?.role?.id || '',
+      role: user?.role?.id || '',
       birthdate: user?.birthdate || ''
     })
   }, [user, reset])
@@ -140,14 +140,14 @@ const UserForm = () => {
           width='100%'
         />
         <Controller
-          name='role_id'
+          name='role'
           control={control}
           defaultValue=''
           render={props => (
             <Select
               label='Função'
               width='100%'
-              error={errors?.role_id?.message}
+              error={errors?.role?.message}
               placeholder='Selecione uma função'
               options={usersRoles}
               mb={10}

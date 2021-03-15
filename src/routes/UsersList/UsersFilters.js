@@ -25,7 +25,10 @@ const UsersFilters = ({ filters = {}, setFilters }) => {
   })
 
   const handleClearForm = () => {
-    reset()
+    reset({
+      role: null,
+      created_at: null
+    })
     setFilters({})
   }
 
@@ -35,7 +38,7 @@ const UsersFilters = ({ filters = {}, setFilters }) => {
         <Input width={1 / 4} px={8} label='Nome' placeholder='Nome' name='name' ref={register} />
         <Input width={1 / 4} px={8} label='Email' placeholder='Email' name='email' ref={register} />
         <Controller
-          name='role_id'
+          name='role'
           control={control}
           defaultValue=''
           render={props => (
