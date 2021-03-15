@@ -1,6 +1,7 @@
 import client from 'providers/fetchClient'
 import { gql } from '@apollo/client'
 import { formatIsoString } from 'helpers'
+import { format } from 'date-fns'
 
 export const getUser = () => client.get('/v1/me')
 
@@ -31,7 +32,9 @@ export const GET_USER = gql`
 `
 
 export const getUsers = async params => {
-  const { results, pageCount } = await client.get('/v1/users', { params })
+  const { results, pageCount } = await client.get('/v1/users', {
+    params: { ...params, created_at: params?.created_at ? format(params.created_at, 'yyyy-MM-dd') : null }
+  })
 
   return {
     pageCount,
