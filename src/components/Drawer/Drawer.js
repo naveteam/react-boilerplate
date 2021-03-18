@@ -77,7 +77,8 @@ const SideBar = styled.div`
   ${({ isOpen, theme }) => css`
     position: absolute;
     height: 100%;
-    background-color: ${theme.colors.secondary.main};
+    background-color: white;
+    border-right: 1px solid lightgray;
     overflow: hidden;
     white-space: nowrap;
     transition: all 0.3s ease-in-out;

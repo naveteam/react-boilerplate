@@ -14,16 +14,8 @@ const Login = () => {
 
   const { register, handleSubmit, errors, formState } = useForm({ resolver: loginResolver })
 
-  const onSubmit = async values => {
-    try {
-      await login(values)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
-    <Column as='form' onSubmit={handleSubmit(onSubmit)} p={40} alignItems='center'>
+    <Column as='form' onSubmit={handleSubmit(login)} p={40} alignItems='center'>
       <Input
         name='email'
         ref={register}

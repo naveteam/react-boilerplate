@@ -19,7 +19,7 @@ import { dateMask } from 'helpers'
 
 const UserForm = () => {
   const { handleOpenModal, handleCloseModal } = useModal()
-  const { usersRoles, isLoadingRoles } = useUser()
+  const { userRoles, isLoadingRoles } = useUser()
 
   const {
     handleSubmit,
@@ -43,7 +43,7 @@ const UserForm = () => {
     reset({
       name: user?.name || '',
       email: user?.email || '',
-      role: user?.role?.id || '',
+      role_id: user?.role?.id || '',
       birthdate: user?.birthdate || ''
     })
   }, [user, reset])
@@ -140,16 +140,16 @@ const UserForm = () => {
           width='100%'
         />
         <Controller
-          name='role'
+          name='role_id'
           control={control}
           defaultValue=''
           render={props => (
             <Select
               label='Função'
               width='100%'
-              error={errors?.role?.message}
+              error={errors?.role_id?.message}
               placeholder='Selecione uma função'
-              options={usersRoles}
+              options={userRoles}
               mb={10}
               {...props}
             />

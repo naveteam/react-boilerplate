@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 import { getUser, login as loginService } from 'services/auth'
 import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
@@ -22,22 +22,17 @@ const UserProvider = props => {
 
   const { data: user, isLoading } = useQuery('user', getUser, { enabled: Boolean(getToken()) })
 
-  const { data: usersRoles, isFetching: isLoadingRoles } = useQuery('getRoles', getAllRoles)
+  const { data: userRoles, isFetching: isLoadingRoles } = useQuery('roles', getAllRoles, {
+    enabled: Boolean(getToken())
+  })
 
-  const login = useCallback(
-    async data => {
-      try {
-        const { access_token, refresh_token } = await loginService(data)
-
-        setAccessToken(access_token)
-        setRefreshToken(refresh_token)
-        queryClient.invalidateQueries('user', { refetchInactive: true })
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    [queryClient]
-  )
+  const { mutate: login } = useMutation(loginService, {
+    onSuccess: async ({ access_token, refresh_token, ...user }) => {
+      setAccessToken(access_token)
+      setRefreshToken(refresh_token)
+      queryClient.setQueryData('user', user)
+    }
+  })
 
   const logout = useCallback(() => {
     clearToken()
@@ -56,7 +51,7 @@ const UserProvider = props => {
     }
   }, [user])
 
-  return <UserContext.Provider value={{ user, isLoading, login, logout, usersRoles, isLoadingRoles }} {...props} />
+  return <UserContext.Provider value={{ user, isLoading, login, logout, userRoles, isLoadingRoles }} {...props} />
 }
 
 export { UserProvider, useUser }

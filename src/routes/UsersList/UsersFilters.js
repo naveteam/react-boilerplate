@@ -12,7 +12,7 @@ import Datepicker from 'components/Datepicker'
 import { useUser } from 'context/user-context'
 
 const UsersFilters = ({ filters = {}, setFilters }) => {
-  const { usersRoles } = useUser()
+  const { userRoles } = useUser()
 
   const {
     register,
@@ -47,7 +47,7 @@ const UsersFilters = ({ filters = {}, setFilters }) => {
               mx={8}
               label='Função'
               placeholder='Selecione uma função'
-              options={usersRoles}
+              options={userRoles}
               mb={10}
               {...props}
             />

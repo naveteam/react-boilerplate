@@ -7,7 +7,7 @@ export const styles = {
   colors: {
     black: '#000',
     primary: {
-      main: '#6721ca'
+      main: '#1976d2'
     },
     secondary: {
       main: 'lightblue'

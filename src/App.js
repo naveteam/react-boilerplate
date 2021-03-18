@@ -43,28 +43,16 @@ const App = () => {
   }
 
   return (
-<<<<<<< HEAD
     <ApolloProvider client={apolloClient}>
       <Theme>
         <Helmet titleTemplate='Nave.rs | %s' />
         <GlobalStyle />
         <Suspense fallback={<Loader />}>
-          {isLoading && <Loader />}
           <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
         </Suspense>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools />
       </Theme>
     </ApolloProvider>
-=======
-    <Theme>
-      <Helmet titleTemplate='Nave.rs | %s' />
-      <GlobalStyle />
-      <Suspense fallback={<Loader />}>
-        <Router>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Router>
-      </Suspense>
-      <ReactQueryDevtools />
-    </Theme>
->>>>>>> feat: upgrade packages and create table
   )
 }
 
