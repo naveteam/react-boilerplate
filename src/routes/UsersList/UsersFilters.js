@@ -25,7 +25,7 @@ const UsersFilters = ({ filters = {}, setFilters }) => {
   })
 
   const handleClearForm = () => {
-    reset()
+    reset({ role: null, created_at: null })
     setFilters({})
   }
 
