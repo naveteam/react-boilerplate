@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { getUser, login as loginService } from 'services/auth'
+import { getUser, login as loginService } from 'services/users'
 import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
 import { getAllRoles } from 'services/users'
 

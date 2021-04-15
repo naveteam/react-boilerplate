@@ -8,7 +8,7 @@ import UsersFilters from './UsersFilters'
 
 import { usePagination } from 'hooks'
 
-import { getUsers } from 'services/auth'
+import { getUsers } from 'services/users'
 
 const UsersList = () => {
   const { data, handleSort, isLoading, order, page, setPage, sort, filters, setFilters } = usePagination(
