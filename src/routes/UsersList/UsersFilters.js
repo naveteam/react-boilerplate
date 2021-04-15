@@ -12,7 +12,7 @@ import Datepicker from 'components/Datepicker'
 import { useUser } from 'context/user-context'
 
 const UsersFilters = ({ filters = {}, setFilters }) => {
-  const { userRoles } = useUser()
+  const { userRoles } = useUser([])
 
   const {
     register,
@@ -25,10 +25,7 @@ const UsersFilters = ({ filters = {}, setFilters }) => {
   })
 
   const handleClearForm = () => {
-    reset({
-      role: null,
-      created_at: null
-    })
+    reset()
     setFilters({})
   }
 

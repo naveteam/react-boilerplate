@@ -47,7 +47,7 @@ const Select = forwardRef(({ label, name, options, onChange, error, value, place
             <Icon
               name='arrow'
               transition='all 0.2s linear'
-              transform={isSelectOptionsOpen ? 'rotateZ(-90deg)' : 'rotateZ(90deg)'}
+              style={{ transform: isSelectOptionsOpen ? 'rotateZ(-90deg)' : 'rotateZ(90deg)' }}
             />
           </Row>
           <Text position='absolute' bottom={0} color='red' variant='small'>
