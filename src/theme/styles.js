@@ -5,6 +5,12 @@ export const styles = {
     small: 40
   },
   colors: {
-    black: '#000'
+    black: '#000',
+    primary: {
+      main: '#1976d2'
+    },
+    secondary: {
+      main: 'lightblue'
+    }
   }
 }

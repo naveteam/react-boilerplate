@@ -1,21 +1,35 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import MaskedInput from 'react-text-mask'
 
 import Column from 'components/Column'
 import Text from 'components/Text'
 
-const InputComponent = ({ label, name, register, placeholder, error, disabled, type, ...props }) => (
+import { mergeRefs } from 'helpers'
+
+const InputComponent = forwardRef(({ label, name, placeholder, error, disabled, type, mask, ...props }, ref) => (
   <Column {...props}>
     {label && <Text mb={5}>{label}</Text>}
     <Column height={60} position='relative'>
-      <Input name={name} ref={register} placeholder={placeholder} error={error} type={type} />
+      {!mask ? (
+        <Input name={name} ref={ref} placeholder={placeholder} error={error} type={type} />
+      ) : (
+        <MaskedInput
+          mask={mask}
+          name={name}
+          placeholder={placeholder}
+          error={error}
+          type={type}
+          render={(maskedRef, inputProps) => <Input ref={mergeRefs(maskedRef, ref)} {...inputProps} />}
+        />
+      )}
       <Text position='absolute' bottom={0} color='red' variant='small'>
         {error}
       </Text>
     </Column>
   </Column>
-)
+))
 
 const Input = styled.input`
   height: 40px;
@@ -35,7 +49,8 @@ InputComponent.propTypes = {
   register: PropTypes.func,
   placeholder: PropTypes.string,
   error: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  mask: PropTypes.array
 }
 
 export default InputComponent

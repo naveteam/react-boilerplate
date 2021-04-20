@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useEffect } from 'react'
-import { useQuery, useMutation, useQueryCache } from 'react-query'
+import React, { createContext, useCallback, useContext, useEffect } from 'react'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { getUser, login as loginService } from 'services/auth'
-import { setAccessToken, setRefreshToken, clearToken, getToken, setToken } from 'helpers'
+import { getUser, login as loginService } from 'services/users'
+import { setAccessToken, setRefreshToken, clearToken, getToken } from 'helpers'
+import { getAllRoles } from 'services/users'
 
 const UserContext = createContext()
 
@@ -17,24 +18,27 @@ const useUser = () => {
 }
 
 const UserProvider = props => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
 
-  const { data: user, isLoading } = useQuery('user', getUser, { enabled: getToken() })
+  const { data: user, isLoading } = useQuery('user', getUser, { enabled: Boolean(getToken()) })
 
-  const [login] = useMutation(loginService, {
-    onSuccess: ({ access_token, refresh_token }) => {
+  const { data: userRoles, isFetching: isLoadingRoles } = useQuery('roles', getAllRoles, {
+    enabled: Boolean(getToken())
+  })
+
+  const { mutate: login } = useMutation(loginService, {
+    onSuccess: async ({ access_token, refresh_token, ...user }) => {
       setAccessToken(access_token)
       setRefreshToken(refresh_token)
-      // trocar access_token e refresh_token por token caso a autenticação seja feita com OAuth0
-      // setToken(token)
-      queryCache.invalidateQueries('user', { refetchInactive: true })
+      queryClient.setQueryData('user', user)
     }
   })
 
-  const logout = () => {
+  const logout = useCallback(() => {
     clearToken()
-    queryCache.setQueryData('user', null)
-  }
+
+    queryClient.setQueryData('user', null)
+  }, [queryClient])
 
   useEffect(() => {
     if (user && process.env.REACT_APP_NODE_ENV === 'production') {
@@ -47,7 +51,7 @@ const UserProvider = props => {
     }
   }, [user])
 
-  return <UserContext.Provider value={{ user, isLoading, login, logout }} {...props} />
+  return <UserContext.Provider value={{ user, isLoading, login, logout, userRoles, isLoadingRoles }} {...props} />
 }
 
 export { UserProvider, useUser }

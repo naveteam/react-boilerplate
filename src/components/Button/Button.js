@@ -6,8 +6,10 @@ import propTypes from '@styled-system/prop-types'
 
 import Loader from 'components/Loader'
 
-const ButtonComponent = ({ children, isLoading, ...props }) => (
-  <Button {...props}>{isLoading ? <Loader /> : children}</Button>
+const ButtonComponent = ({ children, disabled, isLoading, ...props }) => (
+  <Button {...props} disabled={disabled || isLoading}>
+    {isLoading ? <Loader /> : children}
+  </Button>
 )
 
 const Button = styled.button(space, layout, typography, color, border)
@@ -16,7 +18,8 @@ ButtonComponent.defaultProps = {
   width: 'regular',
   height: 'small',
   borderRadius: 4,
-  color: 'white'
+  color: 'white',
+  backgroundColor: 'primary.main'
 }
 
 ButtonComponent.propTypes = {
