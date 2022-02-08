@@ -18,7 +18,6 @@ const UsersFilters = ({ filters = {}, setFilters }) => {
     defaultValues: filters
   })
   const {
-    register,
     handleSubmit,
     formState: { isSubmitting },
     reset,
