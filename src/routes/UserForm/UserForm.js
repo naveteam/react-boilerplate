@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, FormProvider } from 'react-hook-form'
 import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 
@@ -21,16 +21,17 @@ const UserForm = () => {
   const { handleOpenModal, handleCloseModal } = useModal()
   const { userRoles, isLoadingRoles } = useUser()
 
+  const methods = useForm({
+    resolver: userFormResolver
+  })
+
   const {
     handleSubmit,
-    register,
     errors,
     reset,
     control,
     formState: { isSubmitting }
-  } = useForm({
-    resolver: userFormResolver
-  })
+  } = methods
 
   const { id } = useParams()
   const history = useHistory()
@@ -99,98 +100,64 @@ const UserForm = () => {
           </Button>
         </Row>
       )}
-      <Column as='form' maxWidth='500px' borderRadius={5} onSubmit={handleSubmit(onSubmit)} position='relative'>
-        <Text fontWeight='bold' mb={20} fontSize={24} textAlign='center'>
-          {id ? 'Editar usuário' : 'Criar usuário'}
-        </Text>
-        <Input
-          label='Nome'
-          name='name'
-          ref={register}
-          placeholder='Nome'
-          error={errors?.name?.message}
-          type='text'
-          width='100%'
-        />
-        <Input
-          label='Email'
-          name='email'
-          ref={register}
-          placeholder='exemplo@nave.rs'
-          error={errors?.email?.message}
-          type='email'
-          width='100%'
-        />
-        <Input
-          label='Senha'
-          name='password'
-          ref={register}
-          placeholder='*********'
-          error={errors?.password?.message}
-          type='password'
-          width='100%'
-        />
-        <Input
-          label='Confirme a senha'
-          name='confirmPassword'
-          ref={register}
-          placeholder='*********'
-          error={errors?.confirmPassword?.message}
-          type='password'
-          width='100%'
-        />
-        <Controller
-          name='role_id'
-          control={control}
-          defaultValue=''
-          render={props => (
-            <Select
-              label='Função'
-              width='100%'
-              error={errors?.role_id?.message}
-              placeholder='Selecione uma função'
-              options={userRoles}
-              mb={10}
-              {...props}
-            />
-          )}
-        />
-        <Input
-          label='Data de Nascimento'
-          name='birthdate'
-          ref={register}
-          placeholder='dd/mm/aaaa'
-          error={errors?.birthdate?.message}
-          type='text'
-          width='100%'
-          mask={dateMask}
-        />
+      <FormProvider {...methods}>
+        <Column as='form' maxWidth='500px' borderRadius={5} onSubmit={handleSubmit(onSubmit)} position='relative'>
+          <Text fontWeight='bold' mb={20} fontSize={24} textAlign='center'>
+            {id ? 'Editar usuário' : 'Criar usuário'}
+          </Text>
+          <Input label='Nome' name='name' placeholder='Nome' width='100%' />
 
-        <Row mt={14} flexWrap='wrap'>
-          <Button
-            width={['100%', 'regular']}
-            fontWeight='bold'
-            backgroundColor='#919191'
-            mr={[0, 8]}
-            mb={[8, 0]}
-            type='button'
-            onClick={() => history.goBack()}
-          >
-            Voltar
-          </Button>
-          <Button
-            width={['100%', 'regular']}
-            backgroundColor='primary.main'
-            fontWeight='bold'
-            ml={[0, 8]}
-            mt={[8, 0]}
-            type='submit'
-            disabled={isSubmitting}
-          >
-            {id ? 'Salvar' : 'Criar'}
-          </Button>
-        </Row>
-      </Column>
+          <Input label='Email' name='email' placeholder='exemplo@nave.rs' width='100%' />
+
+          <Input label='Senha' name='password' placeholder='*********' type='password' width='100%' />
+
+          <Input label='Confirme a senha' name='confirmPassword' placeholder='*********' type='password' width='100%' />
+
+          <Controller
+            name='role_id'
+            control={control}
+            defaultValue=''
+            render={props => (
+              <Select
+                label='Função'
+                width='100%'
+                error={errors?.role_id?.message}
+                placeholder='Selecione uma função'
+                options={userRoles}
+                mb={10}
+                {...props}
+              />
+            )}
+          />
+
+          <Input label='Data de Nascimento' name='birthdate' placeholder='dd/mm/aaaa' width='100%' mask={dateMask} />
+
+          <Row mt={14} flexWrap='wrap'>
+            <Button
+              width={['100%', 'regular']}
+              fontWeight='bold'
+              backgroundColor='#919191'
+              mr={[0, 8]}
+              mb={[8, 0]}
+              type='button'
+              onClick={() => history.goBack()}
+            >
+              Voltar
+            </Button>
+            <Button
+              width={['100%', 'regular']}
+              backgroundColor='primary.main'
+              fontWeight='bold'
+              ml={[0, 8]}
+              mt={[8, 0]}
+              type='submit'
+              disabled={isSubmitting}
+            >
+              {id ? 'Salvar' : 'Criar'}
+            </Button>
+          </Row>
+        </Column>
+      </FormProvider>
     </Column>
   )
 }
