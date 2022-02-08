@@ -1,35 +1,57 @@
-import React, { forwardRef } from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import MaskedInput from 'react-text-mask'
 
 import Column from 'components/Column'
+import { useRifm } from 'rifm'
 import Text from 'components/Text'
 
-import { mergeRefs } from 'helpers'
+import { useController } from 'react-hook-form'
 
-const InputComponent = forwardRef(({ label, name, placeholder, error, disabled, type, mask, ...props }, ref) => (
-  <Column {...props}>
-    {label && <Text mb={5}>{label}</Text>}
-    <Column height={60} position='relative'>
-      {!mask ? (
-        <Input name={name} ref={ref} placeholder={placeholder} error={error} type={type} />
-      ) : (
-        <MaskedInput
-          mask={mask}
-          name={name}
-          placeholder={placeholder}
-          error={error}
-          type={type}
-          render={(maskedRef, inputProps) => <Input ref={mergeRefs(maskedRef, ref)} {...inputProps} />}
-        />
-      )}
-      <Text position='absolute' bottom={0} color='red' variant='small'>
-        {error}
-      </Text>
+const InputComponent = ({
+  label,
+  name,
+  placeholder,
+  disabled,
+  mask,
+  defaultValue = '',
+  type = 'text',
+  rules,
+  ...props
+}) => {
+  const {
+    field: { ref, value, onChange, ...field },
+    fieldState: { error }
+  } = useController({ name, rules, defaultValue })
+
+  const defaultMask = useMemo(
+    () => ({
+      format: str => str,
+      append: str => str,
+      accept: /./g,
+      ...mask
+    }),
+    [mask]
+  )
+
+  const rifm = useRifm({
+    value,
+    onChange,
+    ...defaultMask
+  })
+
+  return (
+    <Column {...props}>
+      {label && <Text mb={5}>{label}</Text>}
+      <Column height={60} position='relative'>
+        <Input {...field} {...rifm} type={type} error={error} placeholder={placeholder} />
+        <Text position='absolute' bottom={0} color='red' variant='small'>
+          {error?.message}
+        </Text>
+      </Column>
     </Column>
-  </Column>
-))
+  )
+}
 
 const Input = styled.input`
   height: 40px;
@@ -46,11 +68,13 @@ InputComponent.defaultProps = {
 InputComponent.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
-  register: PropTypes.func,
   placeholder: PropTypes.string,
-  error: PropTypes.string,
   disabled: PropTypes.bool,
-  mask: PropTypes.array
+  mask: PropTypes.shape({
+    format: PropTypes.func,
+    append: PropTypes.func,
+    accept: PropTypes.instanceOf(RegExp)
+  })
 }
 
 export default InputComponent
